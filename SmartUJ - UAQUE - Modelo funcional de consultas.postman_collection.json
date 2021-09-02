@@ -1,0 +1,1215 @@
+{
+	"info": {
+		"_postman_id": "02ce9300-7a2b-4e3d-87d6-45ff2d590735",
+		"name": "SmartUJ - UAQUE - Modelo funcional de consultas",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Información académica",
+			"item": [
+				{
+					"name": "Obtener información académica",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{smartuj-endpoint}}/{{info-academica}}/?userId=091221775",
+							"protocol": "http",
+							"host": [
+								"{{smartuj-endpoint}}"
+							],
+							"path": [
+								"{{info-academica}}",
+								""
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "091221775",
+									"description": "IdUsuario indica el usuario del cual se quiere recibir la información académica. "
+								}
+							]
+						},
+						"description": "Retorna la información académica de un usuario(s)."
+					},
+					"response": [
+						{
+							"name": "Obtener información académica",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{smartuj-endpoint}}/{{info-academica}}/?userId=6985698548",
+									"protocol": "http",
+									"host": [
+										"{{smartuj-endpoint}}"
+									],
+									"path": [
+										"{{info-academica}}",
+										""
+									],
+									"query": [
+										{
+											"key": "userId",
+											"value": "6985698548",
+											"description": "IdUsuario indica el usuario del cual se quiere recibir la información académica. "
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Información básica",
+			"item": [
+				{
+					"name": "Obtener datos básicos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{smartuj-endpoint}}/{{info-personal}}/?userId=124709384",
+							"protocol": "http",
+							"host": [
+								"{{smartuj-endpoint}}"
+							],
+							"path": [
+								"{{info-personal}}",
+								""
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "124709384",
+									"description": "IdUsuario indica el usuario del cual se quiere recibir la información, si no se proporciona un id se retorna un conjunto (arreglo) de los datos básicos de todos los miembros de la comunidad académica usuarios del sistema."
+								}
+							]
+						},
+						"description": "Retorna los datos básicos de los usuarios."
+					},
+					"response": [
+						{
+							"name": "Obtener datos básicos",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{smartuj-endpoint}}/{{info-personal}}/?userId=6985698548",
+									"protocol": "http",
+									"host": [
+										"{{smartuj-endpoint}}"
+									],
+									"path": [
+										"{{info-personal}}",
+										""
+									],
+									"query": [
+										{
+											"key": "userId",
+											"value": "6985698548",
+											"description": "IdUsuario indica el usuario del cual se quiere recibir la información, si no se proporciona un id se retorna un conjunto (arreglo) de los datos básicos de todos los miembros de la comunidad académica usuarios del sistema."
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Uso biblioteca",
+			"item": [
+				{
+					"name": "Obtener uso biblioteca",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{smartuj-endpoint}}/{{uso-biblioteca}}/libUse",
+							"protocol": "http",
+							"host": [
+								"{{smartuj-endpoint}}"
+							],
+							"path": [
+								"{{uso-biblioteca}}",
+								"libUse"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": null,
+									"description": "Id del usuario para el cual se desea encontrar la información del uso de la biblioteca.",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Servicio que expone las transacciones  realizados por un usuario sobre material bibliográfico  de la biblioteca."
+					},
+					"response": [
+						{
+							"name": "Obtener uso biblioteca",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{smartuj-endpoint}}/{{uso-biblioteca}}/libUse/?userId=6985698548",
+									"protocol": "http",
+									"host": [
+										"{{smartuj-endpoint}}"
+									],
+									"path": [
+										"{{uso-biblioteca}}",
+										"libUse",
+										""
+									],
+									"query": [
+										{
+											"key": "userId",
+											"value": "6985698548",
+											"description": "Id del usuario para el cual se desea encontrar la información del uso de la biblioteca."
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Obtener uso az",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{smartuj-endpoint}}/{{uso-biblioteca}}/azUse/?userId",
+							"protocol": "http",
+							"host": [
+								"{{smartuj-endpoint}}"
+							],
+							"path": [
+								"{{uso-biblioteca}}",
+								"azUse",
+								""
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": null,
+									"description": "Id del usuario para el cual se desea encontrar la información del uso del los recursos electrónicos az."
+								}
+							]
+						},
+						"description": "Servicio que indica los recursos consultados de recursos electrónicos AZ por parte de los estudiantes."
+					},
+					"response": [
+						{
+							"name": "Obtener uso az",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{smartuj-endpoint}}/{{uso-biblioteca}}/azUse/?userId=6985698548",
+									"protocol": "http",
+									"host": [
+										"{{smartuj-endpoint}}"
+									],
+									"path": [
+										"{{uso-biblioteca}}",
+										"azUse",
+										""
+									],
+									"query": [
+										{
+											"key": "userId",
+											"value": "6985698548",
+											"description": "Id del usuario para el cual se desea encontrar la información del uso del los recursos electrónicos az."
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Obtener uso repositorio institucional",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{smartuj-endpoint}}/{{uso-biblioteca}}/repoUse/?userId",
+							"protocol": "http",
+							"host": [
+								"{{smartuj-endpoint}}"
+							],
+							"path": [
+								"{{uso-biblioteca}}",
+								"repoUse",
+								""
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": null,
+									"description": "Id del usuario para el cual se desea encontrar la información del uso del repositorio institucional"
+								}
+							]
+						},
+						"description": "Servicio que indica las transacciones realizadas por un usuario en el repositorio institucional."
+					},
+					"response": [
+						{
+							"name": "Obtener uso repositorio institucional",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{smartuj-endpoint}}/{{uso-biblioteca}}/repoUse/?userId=6985698548",
+									"protocol": "http",
+									"host": [
+										"{{smartuj-endpoint}}"
+									],
+									"path": [
+										"{{uso-biblioteca}}",
+										"repoUse",
+										""
+									],
+									"query": [
+										{
+											"key": "userId",
+											"value": "6985698548",
+											"description": "Id del usuario para el cual se desea encontrar la información del uso del repositorio institucional"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Obtener recurso biblioteca",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{smartuj-endpoint}}/{{uso-biblioteca}}/libRes",
+							"protocol": "http",
+							"host": [
+								"{{smartuj-endpoint}}"
+							],
+							"path": [
+								"{{uso-biblioteca}}",
+								"libRes"
+							],
+							"query": [
+								{
+									"key": "itemId",
+									"value": null,
+									"description": "Id del recurso de la biblioteca para el cual se desea obtener información.\nSi no se proporciona un Id se devuelve el conjunto(arreglo) de todos los recursos\n",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Servicio que entrega información sobre material Bibliográfico físico de la biblioteca."
+					},
+					"response": [
+						{
+							"name": "Obtener recurso biblioteca",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{smartuj-endpoint}}/{{uso-biblioteca}}/libRes?itemId=6985698548",
+									"protocol": "http",
+									"host": [
+										"{{smartuj-endpoint}}"
+									],
+									"path": [
+										"{{uso-biblioteca}}",
+										"libRes"
+									],
+									"query": [
+										{
+											"key": "itemId",
+											"value": "6985698548",
+											"description": "Id del recurso de la biblioteca para el cual se desea obtener información.\nSi no se proporciona un Id se devuelve el conjunto(arreglo) de todos los recursos\n"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Obtener recurso electrónico az",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{smartuj-endpoint}}/{{uso-biblioteca}}/azRes?itemId",
+							"protocol": "http",
+							"host": [
+								"{{smartuj-endpoint}}"
+							],
+							"path": [
+								"{{uso-biblioteca}}",
+								"azRes"
+							],
+							"query": [
+								{
+									"key": "itemId",
+									"value": null,
+									"description": "Id del recurso electrónico az para el cual se desea obtener información."
+								}
+							]
+						},
+						"description": "Servicio que indica las transacciones realizadas por un usuario en el repositorio institucional."
+					},
+					"response": [
+						{
+							"name": "Obtener recurso electrónico az",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{smartuj-endpoint}}/{{uso-biblioteca}}/azRes?itemId=6985698548",
+									"protocol": "http",
+									"host": [
+										"{{smartuj-endpoint}}"
+									],
+									"path": [
+										"{{uso-biblioteca}}",
+										"azRes"
+									],
+									"query": [
+										{
+											"key": "itemId",
+											"value": "6985698548",
+											"description": "Id del recurso electrónico az para el cual se desea obtener información."
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Obtener recurso repositorio institucional",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{smartuj-endpoint}}/{{uso-biblioteca}}/repoRes?itemId",
+							"protocol": "http",
+							"host": [
+								"{{smartuj-endpoint}}"
+							],
+							"path": [
+								"{{uso-biblioteca}}",
+								"repoRes"
+							],
+							"query": [
+								{
+									"key": "itemId",
+									"value": null,
+									"description": "Id del recurso del repositorio institucional para el cual se desea obtener información."
+								}
+							]
+						},
+						"description": "Servicio que entrega la información de los recursos disponibles en el repositorio institucional."
+					},
+					"response": [
+						{
+							"name": "Obtener recurso repositorio institucional",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{smartuj-endpoint}}/{{uso-biblioteca}}/repoRes?itemId=6985698548",
+									"protocol": "http",
+									"host": [
+										"{{smartuj-endpoint}}"
+									],
+									"path": [
+										"{{uso-biblioteca}}",
+										"repoRes"
+									],
+									"query": [
+										{
+											"key": "itemId",
+											"value": "6985698548",
+											"description": "Id del recurso del repositorio institucional para el cual se desea obtener información."
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Ubicación por red",
+			"item": [
+				{
+					"name": "Obtener ubicación de usuario",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{smartuj-endpoint}}/{{ubicacion-red}}/?userId=024695527",
+							"protocol": "http",
+							"host": [
+								"{{smartuj-endpoint}}"
+							],
+							"path": [
+								"{{ubicacion-red}}",
+								""
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "024695527",
+									"description": "id del usuario del cual se desea conocer la ubicación. "
+								}
+							]
+						},
+						"description": "Retorna la ubicación por red de un usuario en específico"
+					},
+					"response": [
+						{
+							"name": "Obtener ubicación de usuario",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{smartuj-endpoint}}/{{ubicacion-red}}/?userId=6985698548",
+									"protocol": "http",
+									"host": [
+										"{{smartuj-endpoint}}"
+									],
+									"path": [
+										"{{ubicacion-red}}",
+										""
+									],
+									"query": [
+										{
+											"key": "userId",
+											"value": "6985698548",
+											"description": "id del usuario del cual se desea conocer la ubicación. "
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Perfil Usuario",
+			"item": [
+				{
+					"name": "Obtener información académica",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{smartuj-endpoint}}/{{perfil-usuario}}/users/academic",
+							"protocol": "http",
+							"host": [
+								"{{smartuj-endpoint}}"
+							],
+							"path": [
+								"{{perfil-usuario}}",
+								"users",
+								"academic"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": null,
+									"description": "id del usuario. Si no está presente, se retornan los datos de todos los usuarios.",
+									"disabled": true
+								},
+								{
+									"key": "startTerm",
+									"value": null,
+									"description": "periodo desde el cual se realiza la consulta.",
+									"disabled": true
+								},
+								{
+									"key": "endTerm",
+									"value": null,
+									"description": "periodo hasta el cual se realiza la consulta.",
+									"disabled": true
+								},
+								{
+									"key": "termSummaries",
+									"value": null,
+									"description": "flag que indica si se desea obtener los consolidados de los periodos.",
+									"disabled": true
+								},
+								{
+									"key": "classes",
+									"value": null,
+									"description": "flag que indica si se desea obtener la lista de clases.",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Consulta la información académica de los usuarios o un usuario identificado por ‘userId’"
+					},
+					"response": [
+						{
+							"name": "Obtener información académica",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{smartuj-endpoint}}/{{perfil-usuario}}/users/academic/?userId=6985698548&startTerm=1730&endTerm=2110&termSummaries=true&classes=false",
+									"protocol": "http",
+									"host": [
+										"{{smartuj-endpoint}}"
+									],
+									"path": [
+										"{{perfil-usuario}}",
+										"users",
+										"academic",
+										""
+									],
+									"query": [
+										{
+											"key": "userId",
+											"value": "6985698548",
+											"description": "id del usuario. Si no está presente, se retornan los datos de todos los usuarios."
+										},
+										{
+											"key": "startTerm",
+											"value": "1730",
+											"description": "periodo desde el cual se realiza la consulta."
+										},
+										{
+											"key": "endTerm",
+											"value": "2110",
+											"description": "periodo hasta el cual se realiza la consulta."
+										},
+										{
+											"key": "termSummaries",
+											"value": "true",
+											"description": "flag que indica si se desea obtener los consolidados de los periodos."
+										},
+										{
+											"key": "classes",
+											"value": "false",
+											"description": "flag que indica si se desea obtener la lista de clases."
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Obtener información básica",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{smartuj-endpoint}}/{{perfil-usuario}}/users/basicInfo",
+							"protocol": "http",
+							"host": [
+								"{{smartuj-endpoint}}"
+							],
+							"path": [
+								"{{perfil-usuario}}",
+								"users",
+								"basicInfo"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": null,
+									"description": "Si no está presente, se retornan los datos de todos los usuarios.",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Consulta la información básica de los usuarios o un usuario identificado por ‘userId’"
+					},
+					"response": [
+						{
+							"name": "Obtener información básica",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{smartuj-endpoint}}/{{perfil-usuario}}/users/basicInfo/?userId=6985698548",
+									"protocol": "http",
+									"host": [
+										"{{smartuj-endpoint}}"
+									],
+									"path": [
+										"{{perfil-usuario}}",
+										"users",
+										"basicInfo",
+										""
+									],
+									"query": [
+										{
+											"key": "userId",
+											"value": "6985698548",
+											"description": "Si no está presente, se retornan los datos de todos los usuarios."
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Obtener historial de préstamos de la biblioteca",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{smartuj-endpoint}}/{{perfil-usuario}}/users/lib",
+							"protocol": "http",
+							"host": [
+								"{{smartuj-endpoint}}"
+							],
+							"path": [
+								"{{perfil-usuario}}",
+								"users",
+								"lib"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": null,
+									"description": "Identificador del usuario del cual se desea obtener la información, si no está presente se retornará para todos los usuarios",
+									"disabled": true
+								},
+								{
+									"key": "faculty",
+									"value": null,
+									"description": "para indicar la facultad de la cual se desea obtener los usuarios",
+									"disabled": true
+								},
+								{
+									"key": "dateStart",
+									"value": null,
+									"description": "para indicar la fecha inicio desde la cual se desea obtener usuarios la información",
+									"disabled": true
+								},
+								{
+									"key": "dateEnd",
+									"value": null,
+									"description": "para indicar la fecha final hasta la cual se desea obtener los usuarios la información",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Consulta el historial de préstamos del estudiante en la biblioteca."
+					},
+					"response": [
+						{
+							"name": "Obtener historial de préstamos de la biblioteca",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{smartuj-endpoint}}/{{perfil-usuario}}/users/lib/?userId=6985698548&faculty=ING&dateStart=29-08-2018&dateEnd=13-10-2019",
+									"protocol": "http",
+									"host": [
+										"{{smartuj-endpoint}}"
+									],
+									"path": [
+										"{{perfil-usuario}}",
+										"users",
+										"lib",
+										""
+									],
+									"query": [
+										{
+											"key": "userId",
+											"value": "6985698548",
+											"description": "Identificador del usuario del cual se desea obtener la información, si no está presente se retornará para todos los usuarios"
+										},
+										{
+											"key": "faculty",
+											"value": "ING",
+											"description": "para indicar la facultad de la cual se desea obtener los usuarios"
+										},
+										{
+											"key": "dateStart",
+											"value": "29-08-2018",
+											"description": "para indicar la fecha inicio desde la cual se desea obtener usuarios la información"
+										},
+										{
+											"key": "dateEnd",
+											"value": "13-10-2019",
+											"description": "para indicar la fecha final hasta la cual se desea obtener los usuarios la información"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Perfil Grupal",
+			"item": [
+				{
+					"name": "Obtener información grupo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{smartuj-endpoint}}/{{perfil-grupal}}?groupId&userId",
+							"protocol": "http",
+							"host": [
+								"{{smartuj-endpoint}}"
+							],
+							"path": [
+								"{{perfil-grupal}}"
+							],
+							"query": [
+								{
+									"key": "groupId",
+									"value": null,
+									"description": "indica el grupo del cual se quiere recibir la información, si no se le paso el cluster devuelve la información de todos los clusters disponibles."
+								},
+								{
+									"key": "userId",
+									"value": null,
+									"description": "indica el id del usuario del cual se quiere obtener el/los grupo/s a los que pertenece"
+								}
+							]
+						},
+						"description": "Indica la información de un grupo en específico."
+					},
+					"response": [
+						{
+							"name": "Obtener información grupo",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{smartuj-endpoint}}/{{perfil-grupal}}/?groupId=6985698548",
+									"protocol": "http",
+									"host": [
+										"{{smartuj-endpoint}}"
+									],
+									"path": [
+										"{{perfil-grupal}}",
+										""
+									],
+									"query": [
+										{
+											"key": "groupId",
+											"value": "6985698548",
+											"description": "indica el grupo del cual se quiere recibir la información, si no se le paso el cluster devuelve la información de todos los clusters disponibles."
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Obtener feedback grupo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{smartuj-endpoint}}/{{perfil-grupal}}/feedback?userId&groupId",
+							"protocol": "http",
+							"host": [
+								"{{smartuj-endpoint}}"
+							],
+							"path": [
+								"{{perfil-grupal}}",
+								"feedback"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": null,
+									"description": "IdUsuario indica el usuario del cual se quiere recibir la información. "
+								},
+								{
+									"key": "groupId",
+									"value": null,
+									"description": "indica el grupo del cual se quiere recibir la información, si no se le paso el cluster devuelve la información de todos los clusters disponibles."
+								}
+							]
+						},
+						"description": "Devuelve estructuras que unen las recomendaciones, los usuarios y la calificación dada a la recomendación."
+					},
+					"response": [
+						{
+							"name": "Obtener feedback grupo",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{smartuj-endpoint}}/{{perfil-grupal}}/?userId=6985698548",
+									"protocol": "http",
+									"host": [
+										"{{smartuj-endpoint}}"
+									],
+									"path": [
+										"{{perfil-grupal}}",
+										""
+									],
+									"query": [
+										{
+											"key": "userId",
+											"value": "6985698548",
+											"description": "IdUsuario indica el usuario del cual se quiere recibir la información. "
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Obtener feedback",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"itemId\": \"1231k1\",\n    \"userId\": \"123123j9\",\n    \"score\": 4.8,\n    \"groupId\": \"12318j0\"\n}"
+						},
+						"url": {
+							"raw": "http://{{smartuj-endpoint}}/{{perfil-grupal}}/feedback",
+							"protocol": "http",
+							"host": [
+								"{{smartuj-endpoint}}"
+							],
+							"path": [
+								"{{perfil-grupal}}",
+								"feedback"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": null,
+									"description": "IdUsuario para el cual se desea agregar el feedback",
+									"disabled": true
+								},
+								{
+									"key": "itemId",
+									"value": null,
+									"description": "id del ítem sobre el cual se genera el feedback",
+									"disabled": true
+								},
+								{
+									"key": "score",
+									"value": null,
+									"description": "indica la valoracion que se da a la recomendacion\n",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Guarda la recomendación dada al usuario, junto al ítem y la calificación dada por el usuario."
+					},
+					"response": [
+						{
+							"name": "Obtener feedback grupo Copy",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://{{smartuj-endpoint}}/{{perfil-grupal}}/feedback/?userId=6985698548&itemId=6985698548",
+									"protocol": "http",
+									"host": [
+										"{{smartuj-endpoint}}"
+									],
+									"path": [
+										"{{perfil-grupal}}",
+										"feedback",
+										""
+									],
+									"query": [
+										{
+											"key": "userId",
+											"value": "6985698548",
+											"description": "IdUsuario para el cual se desea agregar el feedback"
+										},
+										{
+											"key": "itemId",
+											"value": "6985698548",
+											"description": "id del ítem sobre el cual se genera el feedback"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Recomendación para perfil grupal por temática",
+			"item": [
+				{
+					"name": "Obtener recomendación para grupo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{smartuj-endpoint}}/{{recomendacion-uaque}}?groupId",
+							"protocol": "http",
+							"host": [
+								"{{smartuj-endpoint}}"
+							],
+							"path": [
+								"{{recomendacion-uaque}}"
+							],
+							"query": [
+								{
+									"key": "groupId",
+									"value": null,
+									"description": "El id del grupo señala el grupo sobre el cual se retornarán las recomendaciones. Si no se proporciona un Id se devuelve el conjunto(arreglo) de todos los recursos."
+								}
+							]
+						},
+						"description": "Retorna la lista de recomendaciones para un grupo en especifico"
+					},
+					"response": [
+						{
+							"name": "Obtener recomendación para grupo",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{smartuj-endpoint}}/{{recomendacion-uaque}}/?groupId=6985698548",
+									"protocol": "http",
+									"host": [
+										"{{smartuj-endpoint}}"
+									],
+									"path": [
+										"{{recomendacion-uaque}}",
+										""
+									],
+									"query": [
+										{
+											"key": "groupId",
+											"value": "6985698548",
+											"description": "El id del grupo señala el grupo sobre el cual se retornarán las recomendaciones. Si no se proporciona un Id se devuelve el conjunto(arreglo) de todos los recursos."
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Obtener grupos recomendados con ítem",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{smartuj-endpoint}}/{{recomendacion-uaque}}?itemId=",
+							"protocol": "http",
+							"host": [
+								"{{smartuj-endpoint}}"
+							],
+							"path": [
+								"{{recomendacion-uaque}}"
+							],
+							"query": [
+								{
+									"key": "itemId",
+									"value": "",
+									"description": "Id del item para el cual se desea retornarán los grupos en los cuales haya sido recomendado.  "
+								}
+							]
+						},
+						"description": "Dado un ítem retorna los grupos a los cuales se les está recomendando dicho ítem actualmente."
+					},
+					"response": [
+						{
+							"name": "Obtener grupos recomendados con ítem",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{smartuj-endpoint}}/{{recomendacion-uaque}}/?itemId=6985698548",
+									"protocol": "http",
+									"host": [
+										"{{smartuj-endpoint}}"
+									],
+									"path": [
+										"{{recomendacion-uaque}}",
+										""
+									],
+									"query": [
+										{
+											"key": "itemId",
+											"value": "6985698548",
+											"description": "Id del item para el cual se desea retornarán los grupos en los cuales haya sido recomendado.  "
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "smartuj-endpoint",
+			"value": "localhost:8000/api"
+		},
+		{
+			"key": "smartuj-api-gateway",
+			"value": "suj-a-001"
+		},
+		{
+			"key": "prototipo-2020",
+			"value": "suj-a-002"
+		},
+		{
+			"key": "ui-uaque",
+			"value": "suj-a-003"
+		},
+		{
+			"key": "uso-biblioteca",
+			"value": "suj-e-004"
+		},
+		{
+			"key": "recomendacion-uaque",
+			"value": "suj-i-009"
+		},
+		{
+			"key": "perfil-grupal",
+			"value": "suj-s-009"
+		},
+		{
+			"key": "ubicacion-red",
+			"value": "suj-e-001"
+		},
+		{
+			"key": "perfil-usuario",
+			"value": "suj-s-003"
+		},
+		{
+			"key": "info-academica",
+			"value": "suj-d-001"
+		},
+		{
+			"key": "info-personal",
+			"value": "suj-d-003"
+		},
+		{
+			"key": "userid",
+			"value": "091829392819"
+		}
+	]
+}
