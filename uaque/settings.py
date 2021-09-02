@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'ubicacion_red',
     'uso_biblioteca',
     'perfil_usuario',
+    'perfil_grupal',
+    'recomendaciones'
 ]
 
 MIDDLEWARE = [
