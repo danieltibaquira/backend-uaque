@@ -10,7 +10,9 @@ class RecomemendationAPIView(APIView):
         if not queryItemId and not queryGroupId:
             return Recommendation.objects.all()
         else:
-            return Recommendation.objects.filter(Q(itemId__exact=queryItemId) | Q(feedback__groupId__exact=queryGroupId))
+            # return Recommendation.objects.filter(Q(itemId__exact=queryItemId) | Q(feedback__groupId__exact=queryGroupId))
+            return Recommendation.objects.filter(
+                Q(itemId__exact=queryItemId) | Q(groupId__exact=queryGroupId))
 
     def get(self, request):
         queryItemId = request.GET.get('itemId')

@@ -1,9 +1,12 @@
 from django.db import models
+from django.contrib.postgres.fields import ArrayField
 
 
 # Create your models here.
 
 #Uso y Recursos biblioteca
+
+
 class LibUse(models.Model):
     id = models.BigAutoField(auto_created=True, primary_key=True)
     idUser = models.CharField(max_length=255)
@@ -62,6 +65,7 @@ class TranRepo(models.Model):
     idResource = models.CharField(max_length=255)
     date = models.CharField(max_length=255)
     theme = models.CharField(max_length=255)
+    typeUse = models.CharField(max_length=255)
     repoUse = models.ForeignKey(RepoUse, on_delete=models.CASCADE)
 
 class RepoRes(models.Model):
@@ -73,3 +77,6 @@ class RepoRes(models.Model):
     repo = models.CharField(max_length=255)
     author = models.CharField(max_length=255)
     title = models.CharField(max_length=255)
+    description = models.CharField(max_length=255)
+    format = models.CharField(max_length=255)
+    subjects = ArrayField(models.CharField(max_length=255, blank=True))

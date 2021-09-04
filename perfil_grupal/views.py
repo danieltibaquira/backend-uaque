@@ -13,7 +13,7 @@ class GroupAPIView(APIView):
         if not queryUserId and not queryGroupId:
             return Group.objects.all()
         else:
-            return Group.objects.filter(Q(members__in=queryUserId) | Q(id__exact=queryUserId))
+            return Group.objects.filter(Q(members__in=queryUserId) | Q(id__exact=queryGroupId))
 
     def get(self, request):
         queryUserId = request.GET.get('userId')
@@ -29,7 +29,7 @@ class GroupFeedbackAPIView(APIView):
         if not queryUserId and not queryGroupId:
             return Group.objects.all().prefetch_related("recomendation_set")
         else:
-            return Group.objects.filter(Q(members__in=queryUserId) | Q(id__exact=queryUserId)).prefetch_related("recomendation_set")
+            return Group.objects.filter(Q(members__in=queryUserId) | Q(id__exact=queryGroupId)).prefetch_related("recomendation_set")
 
     def get(self, request):
         queryUserId = request.GET.get('userId')
@@ -43,6 +43,7 @@ class GroupFeedbackAPIView(APIView):
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
 
+        '''
         feed = Feedback.objects.create(
             groupId=body['groupId']
         )
@@ -52,6 +53,13 @@ class GroupFeedbackAPIView(APIView):
             userId=body['userId'],
             score=body['score'],
             feedback=feed
+        )
+        '''
+        Recommendation.objects.create(
+            itemId=body['itemId'],
+            userId=body['userId'],
+            score=body['score'],
+            groupId=body['groupId']
         )
 
         return Response(status=202)
