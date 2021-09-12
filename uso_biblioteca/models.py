@@ -65,7 +65,7 @@ class TranRepo(models.Model):
     idResource = models.CharField(max_length=255)
     date = models.CharField(max_length=255)
     theme = models.CharField(max_length=255)
-    typeUse = models.CharField(max_length=255)
+    typeUse = models.CharField(max_length=255, default='No type use')
     repoUse = models.ForeignKey(RepoUse, on_delete=models.CASCADE)
 
 class RepoRes(models.Model):
@@ -77,6 +77,6 @@ class RepoRes(models.Model):
     repo = models.CharField(max_length=255)
     author = models.CharField(max_length=255)
     title = models.CharField(max_length=255)
-    description = models.CharField(max_length=255)
-    format = models.CharField(max_length=255)
+    description = models.CharField(max_length=255, default='No description')
+    format = models.CharField(max_length=255, default='No format')
     subjects = ArrayField(models.CharField(max_length=255, blank=True))

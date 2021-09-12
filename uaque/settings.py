@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'uso_biblioteca',
     'perfil_usuario',
     'perfil_grupal',
-    'recomendaciones'
+    'recomendaciones',
+    'django_seed'
 ]
 
 MIDDLEWARE = [

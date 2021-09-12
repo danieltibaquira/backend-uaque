@@ -5,7 +5,6 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializer import *
 from perfil_grupal.models import Group
-from perfil_grupal.models import Feedback
 from perfil_grupal.models import Recommendation
 
 class GroupAPIView(APIView):
