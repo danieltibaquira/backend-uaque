@@ -7,6 +7,10 @@ from .serializer import *
 from perfil_grupal.models import Group
 from perfil_grupal.models import Feedback
 from perfil_grupal.models import Recommendation
+from .apps import PerfilGrupalConfig
+import sys
+sys.path.append('./model/PerfilGrupal')
+from perfil_grupal.model.PerfilGrupal import PerfilGrupal
 
 class GroupAPIView(APIView):
     def get_queryset(self, queryUserId, queryGroupId):
@@ -55,3 +59,18 @@ class GroupFeedbackAPIView(APIView):
         )
 
         return Response(status=202)
+
+class ModelTrainerAPIView(APIView):
+    def get(self, request):
+        print('Initializing Model')
+        PerfilGrupalConfig.group_predictor = PerfilGrupal()
+        print('Creating weights')
+        PerfilGrupalConfig.group_predictor.crearPeso()
+        print('Creating tables')
+        PerfilGrupalConfig.group_predictor.invocarTablaPesos()
+        print('Normalizing')
+        PerfilGrupalConfig.group_predictor.invocarNormalizarPesos()
+        print('Making groups')
+        PerfilGrupalConfig.group_predictor.invocarClustering()
+
+        return ''

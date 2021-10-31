@@ -8,6 +8,8 @@ from .models import LibRes
 from .models import AzRes
 from .models import RepoRes
 from .serializer import *
+import pandas as pd
+from .apps import UsoBibliotecaConfig
 
 # Create your views here.
 class LibUseAPIView(APIView):
@@ -50,17 +52,32 @@ class RepoUseAPIView(APIView):
         return Response(serializer.data)
 
 class LibResAPIView(APIView):
-    def get_queryset(self, queryItemId):
-        if not queryItemId:
-            return LibRes.objects.all()
-        else:
-            return LibRes.objects.filter(idResource__exact=queryItemId)
-
+    df_material = UsoBibliotecaConfig.lib_material.copy()
     def get(self, request):
         queryItemId = request.GET.get('itemId')
-        libResources = self.get_queryset(queryItemId)
-        serializer = LibResSerializer(libResources, many=True)
-        return Response(serializer.data)
+        found_titles = self.df_material.loc[self.df_material['Titulo'].str.lower().str.contains(str(queryItemId).lower())]
+        titles_res = []
+        for index, row in found_titles.iterrows():
+            titles_res.append({
+                'itemId': row['Llave'],
+                'title': row['Titulo'],
+                'autor': row['Autor'],
+                'year': row['AnioPublicacion']
+            })
+        return Response(titles_res)
+
+# class LibResAPIView(APIView):
+#     def get_queryset(self, queryItemId):
+#         if not queryItemId:
+#             return LibRes.objects.all()
+#         else:
+#             return LibRes.objects.filter(idResource__exact=queryItemId)
+
+#     def get(self, request):
+#         queryItemId = request.GET.get('itemId')
+#         libResources = self.get_queryset(queryItemId)
+#         serializer = LibResSerializer(libResources, many=True)
+#         return Response(serializer.data)
 
 class AzResAPIView(APIView):
     def get_queryset(self, queryItemId):

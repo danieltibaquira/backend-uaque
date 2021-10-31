@@ -58,3 +58,5 @@ class LibraryAPIView(APIView):
         lib = self.get_queryset(queryUserId, queryDateStart, queryDateEnd, queryFaculty)
         serializer = LibraryHistorySerializer(lib, many=True)
         return Response(serializer.data)
+
+

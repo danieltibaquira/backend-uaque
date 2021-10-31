@@ -9,8 +9,6 @@ from surprise import Dataset
 from surprise import Reader
 import surprise.dump
 import sys
-sys.path.append('./model/Recommendaciones')
-from recomendaciones.model.Recomendaciones import Recomendaciones
 from os.path import dirname, join
 import json
 from .apps import RecomendacionesConfig
@@ -40,46 +38,61 @@ class RecomemendationAPIView(APIView):
 
     def generateRecomendations(self, cluster):
         print("Computando recomendaciones")
-        data_recs_asr = self.recomendaciones_usuario(cluster)
+        data_recs_asr = self.generate_group_recommendations(cluster)
         print("IDs a recomendar", data_recs_asr)
         final_recs = []
         for ids in data_recs_asr:
-            final_recs.append(self.itemIdToMaterial(ids))
+            final_recs.append({'itemId':(ids),
+                                'title': self.itemIdToMaterial(ids),
+                                'location': self.itemIdToLocation(ids),
+                                'author': self.itemIdToAuthor(ids),
+                                'userId':cluster,
+                                'dewey': self.itemIdToDewey(ids),
+                                'themes': self.itemIdToThemes(ids)})
 
         print("Recomendaciones finales", final_recs)
         return final_recs
 
-    def recomendaciones_usuario(self,  id_usuario):
-        df_recomendaciones = RecomendacionesConfig.lib_recommendations.copy()
+    def generate_group_recommendations(self, cluster):
+        df_pesos_full = RecomendacionesConfig.lib_group_pert.copy()
+        predictor = RecomendacionesConfig.predictor
 
-        recomendaciones_u = df_recomendaciones.loc[df_recomendaciones["IDUsuario"] == id_usuario]
+        pertenencias = df_pesos_full.loc[df_pesos_full["IDUsuario"] == cluster]
+        grupos = pertenencias["Cluster"].unique()
+        preds = {}
+        for gr in grupos:
+            print("DEWEY:", gr)
+            data_preds = predictor.recommend_k_items( pd.DataFrame(dict(userID=[int(gr)])), remove_seen=False)
+            preds[gr] = list(data_preds['itemID'])
 
-        return recomendaciones_u['Llave'].values
+        final_preds = []
+        for key, value in preds.items():
+            pert = pertenencias.loc[pertenencias["Cluster"] == key]["Pertenencia"].values[0]
+            if pert < 0.1:
+                pert = 0.1
+            else:
+                pert = round(pert,1)
 
+            many_to_take = int(10 * pert)
+            if many_to_take > 0 and len(preds[key]) > 0:
+                recs_to_add = np.random.choice(preds[key], many_to_take)
+                final_preds.extend(recs_to_add)
+
+        print("Pre send", final_preds)
+        return final_preds
 
     def itemIdToMaterial(self, itemId):
-        print("Calculando id a titulo")
-        found = (RecomendacionesConfig.lib_material.loc[RecomendacionesConfig.lib_material['Llave'] == itemId])
-        found_title = found['Titulo'].values[0]
-        found_location = found['Signatura'].values[0]
-        found_author = found['Autor'].values[0]
-        found_dewey = found['Dewey'].values[0]
-
-        tematicas = RecomendacionesConfig.lib_themes.loc[
-            RecomendacionesConfig.lib_themes['Llaves'] == str(itemId)
-            ]['Tema 670'].values
-        return {
-            'itemId':(itemId),
-            'title': found_title,
-            'location': found_location,
-            'author': found_author,
-            'userId': itemId,
-            'dewey': found_dewey,
-            'themes': tematicas
-        }
+        # print("Calculando id a titulo")
+        found = (RecomendacionesConfig.lib_material.loc[
+            RecomendacionesConfig.lib_material['Llave'] == itemId
+            ]['Titulo'].unique())
+        if len(found) > 0:
+           return found[0]
+        else:
+            return ''
 
     def itemIdToLocation(self, itemId):
-        print("Calculando id a signatura")
+        # print("Calculando id a titulo")
         found = (RecomendacionesConfig.lib_material.loc[
             RecomendacionesConfig.lib_material['Llave'] == itemId
             ]['Signatura'].unique())
@@ -89,7 +102,7 @@ class RecomemendationAPIView(APIView):
             return ''
 
     def itemIdToAuthor(self, itemId):
-        print("Calculando id a autor")
+        # print("Calculando id a titulo")
         found = (RecomendacionesConfig.lib_material.loc[
             RecomendacionesConfig.lib_material['Llave'] == itemId
             ]['Autor'].unique())
@@ -99,7 +112,7 @@ class RecomemendationAPIView(APIView):
             return ''
 
     def itemIdToDewey(self, itemId):
-        print("Calculando id a dewey")
+        # print("Calculando id a dewey")
         found = (RecomendacionesConfig.lib_material.loc[
             RecomendacionesConfig.lib_material['Llave'] == itemId
             ]['Dewey'].unique())
@@ -109,7 +122,7 @@ class RecomemendationAPIView(APIView):
             return ''
 
     def itemIdToThemes(self, itemId):
-        print("Calculando id a temas")
+        # print("Calculando id a temas")
         tematicas = RecomendacionesConfig.lib_themes.loc[
             RecomendacionesConfig.lib_themes['Llaves'] == str(itemId)
             ]['Tema 670'].values
@@ -117,19 +130,3 @@ class RecomemendationAPIView(APIView):
             return []
         else:
             return tematicas
-
-class ModelTrainerAPIView(APIView):
-    def get(self, request):
-        RecomendacionesConfig.recommendation_predictor = Recomendaciones()
-        RecomendacionesConfig.recommendation_predictor.crearPesos()
-        RecomendacionesConfig.recommendation_predictor.cargarModelo()
-        RecomendacionesConfig.recommendation_predictor.invocarCalculoLista()
-        RecomendacionesConfig.recommendation_predictor.invocarRecomendaciones()
-        RecomendacionesConfig.recommendation_predictor.invocarRecomendacionesLibrosNuevos()
-        RecomendacionesConfig.recommendation_predictor.unionRecomendaciones()
-        RecomendacionesConfig.recommendation_predictor.invocarFiltrarRecomendaciones()
-        RecomendacionesConfig.recommendation_predictor.unionRecomendacionesFinales()
-        RecomendacionesConfig.recommendation_predictor.unionRecomendacionesFinales()
-        RecomendacionesConfig.recommendation_predictor.exportarRecomendaciones()
-
-        return ''
