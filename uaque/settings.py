@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -48,7 +49,8 @@ INSTALLED_APPS = [
     'uso_biblioteca',
     'perfil_usuario',
     'perfil_grupal',
-    'recomendaciones'
+    'recomendaciones',
+    'localizacion',
 ]
 
 MIDDLEWARE = [
@@ -140,5 +142,6 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+ASGI_APPLICATION = 'uaque.asgi.application'
 
 CORS_ORIGIN_ALLOW_ALL = True
