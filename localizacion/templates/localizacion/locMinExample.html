@@ -31,7 +31,7 @@
       setInterval(()=>{
             var item = items[Math.floor(Math.random()*items.length)];
             
-            document.querySelector('#log').value += ('Cliente - Localizacion enviada: '+ item + '\n');
+            document.querySelector('#log').value += (window.location.host + 'Cliente - Localizacion enviada: '+ item + '\n');
               locSocket.send(JSON.stringify({ 'message': item }));
             },1000);
         
