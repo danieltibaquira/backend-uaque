@@ -25,4 +25,5 @@ urlpatterns = [
     path('api/', include('perfil_usuario.urls')),
     path('api/', include('perfil_grupal.urls')),
     path('api/', include('recomendaciones.urls')),
+    path('api/', include('localizacion.urls')),
 ]

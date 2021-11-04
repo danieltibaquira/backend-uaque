@@ -1,0 +1,36 @@
+<!-- chat/templates/chat/room.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Ejemplo minimo funcional</title>
+</head>
+<body>
+    <p>Cliente manda localizaciones cada segundo por websocket. El sevidor las recibe y las si es biblioteca, regresa una frase</p>
+    <p>Si quieres seguir la ruta, el consumidor del mensaje esta definido en localizacion/routing.py</p>
+    <textarea id="log" cols="100" rows="20"></textarea><br>
+    <script>
+
+      //socket al que se va a conectar. tiene que coincidir con los que existen en localizacion/routing.py
+        const locSocket = new WebSocket(
+            'ws://'
+            + 'localhost:8000'
+            + '/ws/loc/biblioteca'
+        );
+
+        locSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+
+            if(data.message==='biblioteca'){
+              document.querySelector('#log').value += (data.message + '\n');
+            }
+        };
+
+        locSocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+
+        
+    </script>
+</body>
+</html>
