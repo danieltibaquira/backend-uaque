@@ -25,7 +25,7 @@ class LocConsumer(AsyncWebsocketConsumer):
     async def send_data(self): 
         lugares:list = ['biblioteca', 'parque', 'aulas', 'cafeteria']
         while self.connect:
-          await asyncio.sleep(2)
+          await asyncio.sleep(10)
           obj = choice(lugares)
           print({
             'type': 'websocket.send',
