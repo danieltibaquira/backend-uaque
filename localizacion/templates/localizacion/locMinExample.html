@@ -14,26 +14,22 @@
       //socket al que se va a conectar. tiene que coincidir con los que existen en localizacion/routing.py
         const locSocket = new WebSocket(
             'ws://'
-            + window.location.host
+            + 'localhost:8000'
             + '/ws/loc/biblioteca'
         );
 
         locSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
-            document.querySelector('#log').value += (data.message + '\n');
+
+            if(data.message==='biblioteca'){
+              document.querySelector('#log').value += (data.message + '\n');
+            }
         };
 
         locSocket.onclose = function(e) {
             console.error('Chat socket closed unexpectedly');
         };
 
-        var items = ['biblioteca', 'parque', 'cafeteria', 'aulas'];
-      setInterval(()=>{
-            var item = items[Math.floor(Math.random()*items.length)];
-            
-            document.querySelector('#log').value += (window.location.host + 'Cliente - Localizacion enviada: '+ item + '\n');
-              locSocket.send(JSON.stringify({ 'message': item }));
-            },1000);
         
     </script>
 </body>
