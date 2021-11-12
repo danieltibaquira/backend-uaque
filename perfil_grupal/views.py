@@ -12,6 +12,7 @@ import calendar
 import time
 import sys
 import datetime
+import dropbox
 sys.path.append('./model/PerfilGrupal')
 from perfil_grupal.model.PerfilGrupal import PerfilGrupal
 
@@ -54,8 +55,6 @@ class GroupFeedbackAPIView(APIView):
 
         self.buildFeedback(body['itemId'], body['userId'], body['score'])
 
-        print(PerfilGrupalConfig.lib_feedback.to_json(orient='records'))
-
         return Response(status=202)
 
     def buildFeedback(self, itemId, userId, score):
@@ -63,6 +62,11 @@ class GroupFeedbackAPIView(APIView):
 
         by_item = df_join.loc[df_join['Llave'] == itemId].iloc[[0]]
         by_user = df_join.loc[df_join['IDUsuario'] == userId].iloc[[0]]
+
+        currentDateTime = datetime.datetime.now()
+        date = currentDateTime.date()
+        year = date.strftime("%Y")
+
         cell = {
             'RowID':by_item['RowID'].values[0],
             'Fecha':calendar.timegm(time.gmtime()),
@@ -74,7 +78,7 @@ class GroupFeedbackAPIView(APIView):
             'Programa':by_user['Programa'].values[0],
             'Facultad':by_user['Facultad'].values[0],
             'IDUsuario': userId,
-            'Year':by_item['Year'].values[0],
+            'Year': year,
             'Signatura':by_item['Signatura'].values[0],
             'TipoItem':by_item['TipoItem'].values[0],
             'FechaCreacion':by_item['FechaCreacion'].values[0],
@@ -92,7 +96,13 @@ class GroupFeedbackAPIView(APIView):
         }
 
         print(cell)
-        PerfilGrupalConfig.lib_feedback.append(cell, ignore_index=True)
+
+        PerfilGrupalConfig.lib_feedback = PerfilGrupalConfig.lib_feedback.append(cell, ignore_index=True)
+
+        PerfilGrupalConfig.dbx.files_upload(
+            str.encode(PerfilGrupalConfig.lib_feedback.to_json()),
+            '/feedback_users.json',
+            mode=dropbox.files.WriteMode.overwrite)
 
 
 
