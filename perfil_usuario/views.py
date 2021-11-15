@@ -17,6 +17,27 @@ class AcademicInfoAPIView(APIView):
         else:
             return AcademicInfo.objects.filter(idUser__exact=queryUserId).prefetch_related("termsummary_set", "classes_set")
 
+    '''
+    DESCRIPTION: Consulta la información académica de los usuarios o un usuario identificado por ‘userId’
+
+    URL: http:///{{smartuj-endpoint}}/suj-s-003/users/academic
+
+    METHOD: GET
+
+    QUERY PARAMS:
+        userId: id del usuario. Si no está presente, se retornan los datos de todos los usuarios.
+
+        startTerm: periodo desde el cual se realiza la consulta.
+
+        endTerm: periodo hasta el cual se realiza la consulta.
+
+        termSummaries: flag que indica si se desea obtener los consolidados de los periodos.
+
+        classes: flag que indica si se desea obtener la lista de clases.
+
+    RESPONSE: Objeto PerfilUsuario
+
+    '''
     def get(self, request):
         queryUserId = request.GET.get('userId')
         queryDateStart = request.GET.get('dateStart')
@@ -35,6 +56,19 @@ class BasicInfoAPIView(APIView):
         else:
             return BasicInfo.objects.filter(idUser__exact=queryUserId)
 
+    '''
+    DESCRIPTION: Consulta la información básica de los usuarios o un usuario identificado por 'userId'
+
+    URL: http:///{{smartuj-endpoint}}/suj-s-003/users/basicinfo
+
+    METHOD: GET
+
+    QUERY PARAMS:
+        userId: id del usuario. Si no está presente, se retornan los datos de todos los usuarios.
+
+    RESPONSE: Objeto BasicInfor
+
+    '''
     def get(self, request):
         queryUserId = request.GET.get('userId')
 
@@ -48,6 +82,26 @@ class LibraryAPIView(APIView):
             return LibraryHistory.objects.all().prefetch_related("transactionlibrary_set")
         else:
             return LibraryHistory.objects.filter(idUser__exact=queryUserId).prefetch_related("transactionlibrary_set")
+
+    '''
+    DESCRIPTION: Consulta el historial de préstamos del estudiante en la biblioteca.
+
+    URL: http:///{{smartuj-endpoint}}/suj-s-003/users/lib
+
+    METHOD: GET
+
+    QUERY PARAMS:
+        userId: Identificador del usuario del cual se desea obtener la información, si no está presente se retornará para todos los usuarios
+
+        faculty: para indicar la facultad de la cual se desea obtener los usuarios
+
+        dateStart: para indicar la fecha inicio desde la cual se desea obtener usuarios la información
+
+        dateEnd: para indicar la fecha final hasta la cual se desea obtener los usuarios la información
+
+    RESPONSE: Objeto UsoBiblioteca
+
+    '''
 
     def get(self, request):
         queryUserId = request.GET.get('userId')

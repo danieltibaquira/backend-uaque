@@ -6,6 +6,7 @@ from .models import BasicInfo
 from .models import LibraryHistory
 from .models import TransactionLibrary
 
+# Objetos serializadores para las respuestas de los endpoints
 class TermSummarySerializer(serializers.ModelSerializer):
     class Meta:
         model = TermSummary

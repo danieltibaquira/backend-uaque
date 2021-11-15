@@ -66,6 +66,7 @@ class GroupFeedbackAPIView(APIView):
         currentDateTime = datetime.datetime.now()
         date = currentDateTime.date()
         year = date.strftime("%Y")
+        nivel = self.nivelRec(userId, itemId)
 
         cell = {
             'RowID':by_item['RowID'].values[0],
@@ -92,7 +93,8 @@ class GroupFeedbackAPIView(APIView):
             'DeweyCentena':by_item['DeweyCentena'].values[0],
             'Temas':by_item['Temas'].values[0],
             'Union':by_item['Union'].values[0],
-            'calificacion': score
+            'Calificacion': score,
+            'Nivel': nivel
         }
 
         print(cell)
@@ -103,6 +105,11 @@ class GroupFeedbackAPIView(APIView):
             str.encode(PerfilGrupalConfig.lib_feedback.to_json()),
             '/feedback_users.json',
             mode=dropbox.files.WriteMode.overwrite)
+
+    def nivelRec(self, userId, itemId):
+        return PerfilGrupalConfig.lib_recommendations.loc[
+                (PerfilGrupalConfig.lib_recommendations['IDUsuario'] == userId)
+                    & (PerfilGrupalConfig.lib_recommendations['Llave'] == itemId), 'Nivel'].values[0]
 
 
 

@@ -1,7 +1,6 @@
 from django.db import models
 
-
-# Create your models here.
+# Modelo mediante el cual se almacena la información de uso de la biblioteca y material bibliográfico
 
 #Uso y Recursos biblioteca
 class LibUse(models.Model):

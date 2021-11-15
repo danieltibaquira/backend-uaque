@@ -313,9 +313,15 @@
 					"name": "Obtener recurso biblioteca",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token 70edf047010feddb7d536d174e649d65aa550c82",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "http://{{smartuj-endpoint}}/{{uso-biblioteca}}/libRes",
+							"raw": "http://{{smartuj-endpoint}}/{{uso-biblioteca}}/libRes?itemId=%23NAN",
 							"protocol": "http",
 							"host": [
 								"{{smartuj-endpoint}}"
@@ -327,9 +333,8 @@
 							"query": [
 								{
 									"key": "itemId",
-									"value": null,
-									"description": "Id del recurso de la biblioteca para el cual se desea obtener información.\nSi no se proporciona un Id se devuelve el conjunto(arreglo) de todos los recursos\n",
-									"disabled": true
+									"value": "%23NAN",
+									"description": "Id del recurso de la biblioteca para el cual se desea obtener información.\nSi no se proporciona un Id se devuelve el conjunto(arreglo) de todos los recursos\n"
 								}
 							]
 						},
@@ -875,6 +880,56 @@
 					]
 				},
 				{
+					"name": "Entrenar Modelo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{smartuj-endpoint}}/{{perfil-grupal}}/model",
+							"protocol": "http",
+							"host": [
+								"{{smartuj-endpoint}}"
+							],
+							"path": [
+								"{{perfil-grupal}}",
+								"model"
+							]
+						},
+						"description": "Indica la información de un grupo en específico."
+					},
+					"response": [
+						{
+							"name": "Obtener información grupo",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{smartuj-endpoint}}/{{perfil-grupal}}/?groupId=6985698548",
+									"protocol": "http",
+									"host": [
+										"{{smartuj-endpoint}}"
+									],
+									"path": [
+										"{{perfil-grupal}}",
+										""
+									],
+									"query": [
+										{
+											"key": "groupId",
+											"value": "6985698548",
+											"description": "indica el grupo del cual se quiere recibir la información, si no se le paso el cluster devuelve la información de todos los clusters disponibles."
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
 					"name": "Obtener feedback grupo",
 					"request": {
 						"method": "GET",
@@ -949,7 +1004,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"itemId\": \"1231k1\",\n    \"userId\": \"123123j9\",\n    \"score\": 4.8,\n    \"groupId\": \"12318j0\"\n}"
+							"raw": "{\n    \"itemId\": \"731232\",\n    \"userId\": \"6466dbb15c41fdacb59eb1179817958de2c57191\",\n    \"score\": \"1\",\n    \"groupId\": \"12318j0\"\n}"
 						},
 						"url": {
 							"raw": "http://{{smartuj-endpoint}}/{{perfil-grupal}}/feedback",
@@ -1033,7 +1088,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{smartuj-endpoint}}/{{recomendacion-uaque}}?groupId",
+							"raw": "http://{{smartuj-endpoint}}/{{recomendacion-uaque}}?groupId=6466dbb15c41fdacb59eb1179817958de2c57191",
 							"protocol": "http",
 							"host": [
 								"{{smartuj-endpoint}}"
@@ -1044,9 +1099,59 @@
 							"query": [
 								{
 									"key": "groupId",
-									"value": null,
+									"value": "6466dbb15c41fdacb59eb1179817958de2c57191",
 									"description": "El id del grupo señala el grupo sobre el cual se retornarán las recomendaciones. Si no se proporciona un Id se devuelve el conjunto(arreglo) de todos los recursos."
 								}
+							]
+						},
+						"description": "Retorna la lista de recomendaciones para un grupo en especifico"
+					},
+					"response": [
+						{
+							"name": "Obtener recomendación para grupo",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{smartuj-endpoint}}/{{recomendacion-uaque}}/?groupId=6985698548",
+									"protocol": "http",
+									"host": [
+										"{{smartuj-endpoint}}"
+									],
+									"path": [
+										"{{recomendacion-uaque}}",
+										""
+									],
+									"query": [
+										{
+											"key": "groupId",
+											"value": "6985698548",
+											"description": "El id del grupo señala el grupo sobre el cual se retornarán las recomendaciones. Si no se proporciona un Id se devuelve el conjunto(arreglo) de todos los recursos."
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Entrenar Modelo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{smartuj-endpoint}}/{{recomendacion-uaque}}/model",
+							"protocol": "http",
+							"host": [
+								"{{smartuj-endpoint}}"
+							],
+							"path": [
+								"{{recomendacion-uaque}}",
+								"model"
 							]
 						},
 						"description": "Retorna la lista de recomendaciones para un grupo en especifico"
@@ -1138,6 +1243,15 @@
 							"body": null
 						}
 					]
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": null
+					},
+					"response": []
 				}
 			]
 		}

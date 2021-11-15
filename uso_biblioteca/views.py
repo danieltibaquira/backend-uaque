@@ -19,6 +19,19 @@ class LibUseAPIView(APIView):
         else:
             return LibUse.objects.filter(idUser__exact=queryUserId).prefetch_related("tranlib_set")
 
+    '''
+    DESCRIPTION: Servicio que expone las transacciones realizados por un usuario sobre material bibliográfico de la biblioteca.
+
+    URL: http:///{{smartuj-endpoint}}/suj-e-004/libUse
+
+    METHOD: GET
+
+    QUERY PARAMS:
+        userId: Id del usuario para el cual se desea encontrar la información del uso de la biblioteca.
+
+    RESPONSE: Objeto LibUse
+
+    '''
     def get(self, request):
         queryUserId = request.GET.get('userId')
         libUses = self.get_queryset(queryUserId)
@@ -32,6 +45,19 @@ class AzUseAPIView(APIView):
         else:
             return AzUse.objects.filter(idUser__exact=queryUserId).prefetch_related("tranaz_set")
 
+    '''
+    DESCRIPTION: Servicio que indica los recursos consultados de recursos electrónicos AZ por parte de los estudiantes.
+
+    URL: http:///{{smartuj-endpoint}}/suj-e-004/azUse
+
+    METHOD: GET
+
+    QUERY PARAMS:
+        userId: Id del usuario para el cual se desea encontrar la información del uso de la biblioteca.
+
+    RESPONSE: Objeto AzUse
+
+    '''
     def get(self, request):
         queryUserId = request.GET.get('userId')
         azUses = self.get_queryset(queryUserId)
@@ -45,6 +71,19 @@ class RepoUseAPIView(APIView):
         else:
             return RepoUse.objects.filter(idUser__exact=queryUserId).prefetch_related("tranrepo_set")
 
+    '''
+    DESCRIPTION: Servicio que indica las transacciones realizadas por un usuario en el repositorio institucional.
+
+    URL: http:///{{smartuj-endpoint}}/suj-e-004/repoUse
+
+    METHOD: GET
+
+    QUERY PARAMS:
+        userId: Id del usuario para el cual se desea encontrar la información del uso de la biblioteca.
+
+    RESPONSE: Objeto RepoUse
+
+    '''
     def get(self, request):
         queryUserId = request.GET.get('userId')
         repoUses = self.get_queryset(queryUserId)
@@ -53,6 +92,22 @@ class RepoUseAPIView(APIView):
 
 class LibResAPIView(APIView):
     df_material = UsoBibliotecaConfig.lib_material.copy()
+
+
+    '''
+    DESCRIPTION: Servicio que entrega información sobre material Bibliográfico físico de la biblioteca.
+
+    URL: http:///{{smartuj-endpoint}}/suj-e-004/libRes
+
+    METHOD: GET
+
+    QUERY PARAMS:
+    itemId: Id del recurso de la biblioteca para el cual se desea obtener información.
+            Si no se proporciona un Id se devuelve el conjunto(arreglo) de todos los recursos
+
+    RESPONSE: Objeto LibRes
+
+    '''
     def get(self, request):
         queryItemId = request.GET.get('itemId')
         found_titles = self.df_material.loc[self.df_material['Titulo'].str.lower().str.contains(str(queryItemId).lower())]
@@ -66,19 +121,6 @@ class LibResAPIView(APIView):
             })
         return Response(titles_res)
 
-# class LibResAPIView(APIView):
-#     def get_queryset(self, queryItemId):
-#         if not queryItemId:
-#             return LibRes.objects.all()
-#         else:
-#             return LibRes.objects.filter(idResource__exact=queryItemId)
-
-#     def get(self, request):
-#         queryItemId = request.GET.get('itemId')
-#         libResources = self.get_queryset(queryItemId)
-#         serializer = LibResSerializer(libResources, many=True)
-#         return Response(serializer.data)
-
 class AzResAPIView(APIView):
     def get_queryset(self, queryItemId):
         if not queryItemId:
@@ -86,6 +128,20 @@ class AzResAPIView(APIView):
         else:
             return AzRes.objects.filter(idResource__exact=queryItemId)
 
+    '''
+    DESCRIPTION: Servicio que indica las transacciones realizadas por un usuario en el repositorio institucional.
+
+    URL: http:///{{smartuj-endpoint}}/suj-e-004/azRes
+
+    METHOD: GET
+
+    QUERY PARAMS:
+    itemId: Id del recurso de la biblioteca para el cual se desea obtener información.
+            Si no se proporciona un Id se devuelve el conjunto(arreglo) de todos los recursos
+
+    RESPONSE: Objeto AzRes
+
+    '''
     def get(self, request):
         queryItemId = request.GET.get('itemId')
         azResources = self.get_queryset(queryItemId)
@@ -99,6 +155,20 @@ class RepoResAPIView(APIView):
         else:
             return RepoRes.objects.filter(idResource__exact=queryItemId)
 
+    '''
+    DESCRIPTION: Servicio que entrega la información de los recursos disponibles en el repositorio institucional.
+
+    URL: http:///{{smartuj-endpoint}}/suj-e-004/repoRes
+
+    METHOD: GET
+
+    QUERY PARAMS:
+    itemId: Id del recurso de la biblioteca para el cual se desea obtener información.
+            Si no se proporciona un Id se devuelve el conjunto(arreglo) de todos los recursos
+
+    RESPONSE: Objeto repoRes
+
+    '''
     def get(self, request):
         queryItemId = request.GET.get('itemId')
         repoResources = self.get_queryset(queryItemId)

@@ -1,7 +1,7 @@
 from django.db import models
 
 
-# Create your models here.
+# Modelo mediante el cual se almacena la información básica de los estudiantes
 class InfoBasica(models.Model):
     idUser = models.CharField(max_length=255)
     countryOfBirth = models.CharField(max_length=255)
