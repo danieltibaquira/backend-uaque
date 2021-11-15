@@ -5,7 +5,8 @@ from .views import RepoUseAPIView
 from .views import LibResAPIView
 from .views import AzResAPIView
 from .views import RepoResAPIView
-
+from .views import DashboardFeedback
+from .views import DashboardUtilsDeweyList
 # URL Base para el servicio
 baseURL = 'suj-e-004'
 
@@ -18,5 +19,7 @@ urlpatterns = [
     path('suj-e-004/libRes', LibResAPIView.as_view()),
     path('suj-e-004/azRes', AzResAPIView.as_view()),
     path('suj-e-004/repoRes', RepoResAPIView.as_view()),
+    path('suj-e-004/DashboardFeedback', DashboardFeedback.as_view()),
+    path('suj-e-004/DashboardUtilsDeweyList', DashboardUtilsDeweyList.as_view()),
 
 ]

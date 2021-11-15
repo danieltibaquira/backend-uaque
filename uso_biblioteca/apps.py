@@ -8,3 +8,5 @@ class UsoBibliotecaConfig(AppConfig):
 
     basepath = "https://www.dropbox.com/s/"
     lib_material = pd.read_json(basepath + "q38zr341seq7rkf/joinTablas.json?dl=1")
+    lib_feedback= pd.DataFrame(pd.read_json(basepath + "fn2o86tbrplkjpd/recomedaciones_finalesMasFeedback.json?dl=1"))
+    lib_pesos_usuarios= pd.DataFrame(pd.read_json(basepath + "voqnwdzt8cwyr7u/pesos_norm_id_unidad.json?dl=1"))
