@@ -11,6 +11,7 @@ from .serializer import *
 import pandas as pd
 from .apps import UsoBibliotecaConfig
 import sys
+import dropbox
 
 sys.path.append("./DataPrep/DataPrep")
 sys.path.append("../")
@@ -465,3 +466,24 @@ class DashboardFeedbackIndividualUtilsOption(APIView):
 
         result = [o for o in id_users if search_value in o["label"]][0:200]
         return Response(result)
+
+class DashboardControlPanelMaterialUpdate(APIView):
+    def get(self, request):
+        url = request.GET.get("url")
+        nuevo_archivo = pd.DataFrame(pd.read_csv(url))
+        Constants.Constants.dbx.files_upload(
+                    str.encode(str(nuevo_archivo.to_json())),
+                    Constants.Constants.lib_material_pre_name,
+                    mode=dropbox.files.WriteMode.overwrite)
+        return Response('OK')
+
+class DashboardControlPanelPrestamosUpdate(APIView):
+    def get(self, request):
+        url = request.GET.get("url")
+        nuevo_archivo = pd.DataFrame(pd.read_csv(url))
+        Constants.Constants.dbx.files_upload(
+                    str.encode(str(nuevo_archivo.to_json())),
+                    Constants.Constants.lib_prestamos_pre_name,
+                    mode=dropbox.files.WriteMode.overwrite)
+        return Response('OK')
+
