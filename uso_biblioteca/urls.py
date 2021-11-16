@@ -1,5 +1,7 @@
 from django.urls import path, include
 from .views import (
+    DashboardFeedbackIndividual,
+    DashboardFeedbackIndividualUtilsOption,
     DashboardFeedbackPorDewey,
     DashboardFeedbackPorDeweyUtilsOption,
     DashboardFeedbackUtilsDeweyList,
@@ -64,5 +66,13 @@ urlpatterns = [
     path(
         "suj-e-004/DashboardFeedbackPorDeweyUtilsOption",
         DashboardFeedbackPorDeweyUtilsOption.as_view(),
+    ),
+    path(
+        "suj-e-004/DashboardFeedbackIndividual",
+        DashboardFeedbackIndividual.as_view(),
+    ),
+    path(
+        "suj-e-004/DashboardFeedbackIndividualUtilsOption",
+        DashboardFeedbackIndividualUtilsOption.as_view(),
     ),
 ]
