@@ -3,6 +3,9 @@ from .views import (
     DashboardFeedbackUtilsDeweyList,
     DashboardGrupos,
     DashboardGruposUtilsDeweyList,
+    DashboardPertenencia,
+    DashboardPertenenciaUtilsUpdateBookList,
+    DashboardPertenenciaUtilsUpdateOptions,
 )
 from .views import LibUseAPIView
 from .views import AzUseAPIView
@@ -34,5 +37,22 @@ urlpatterns = [
     path(
         "suj-e-004/DashboardGruposUtilsDeweyList",
         DashboardGruposUtilsDeweyList.as_view(),
+    ),
+    path("suj-e-004/DashboardPertenencia", DashboardPertenencia.as_view()),
+    path(
+        "suj-e-004/DashboardFeedbackUtilsDeweyList",
+        DashboardFeedbackUtilsDeweyList.as_view(),
+    ),
+    path(
+        "suj-e-004/DashboardPertenencia",
+        DashboardPertenencia.as_view(),
+    ),
+    path(
+        "suj-e-004/DashboardPertenenciaUtilsUpdateBookList",
+        DashboardPertenenciaUtilsUpdateBookList.as_view(),
+    ),
+    path(
+        "suj-e-004/DashboardPertenenciaUtilsUpdateOptions",
+        DashboardPertenenciaUtilsUpdateOptions.as_view(),
     ),
 ]

@@ -221,98 +221,74 @@ class DataPrepAPIView(APIView):
         return Response(status=202)
 
 
+
 class DashboardFeedback(APIView):
     def get(self, request):
-        dewey = request.GET.get("dewey")
-        dewey_unit = request.GET.get("dewey_unit")
-        # Traemos todas las llaves con susu deweys de todas las unidades
-        all_deweys = pd.DataFrame(
-            pd.DataFrame(UsoBibliotecaConfig.lib_material)[
-                ["DeweyUnidad", "DeweyDecena", "DeweyCentena", "Llave"]
-            ].drop_duplicates()
-        )
+        dewey = request.GET.get('dewey')
+        dewey_unit = request.GET.get('dewey_unit')
+        #Traemos todas las llaves con susu deweys de todas las unidades
+        all_deweys = pd.DataFrame(UsoBibliotecaConfig.lib_material[['DeweyUnidad', 'DeweyDecena', 'DeweyCentena', 'Llave']].drop_duplicates())
 
-        # Join entre las dos tablas desde la Llave del libro
-        reviewed_books: pd.DataFrame = UsoBibliotecaConfig.lib_feedback.merge(
-            all_deweys, on="Llave", suffixes=("_feedback", "_all_deweys")
-        )
-        reviewed_books = pd.DataFrame(
-            reviewed_books.drop_duplicates(
-                subset=["IDUsuario", "Calificacion", "Llave"]
-            )
-        )
+        #Join entre las dos tablas desde la Llave del libro
+        reviewed_books: pd.DataFrame = UsoBibliotecaConfig.lib_feedback.merge(all_deweys, on='Llave', suffixes=('_feedback', '_all_deweys'))
+        reviewed_books = pd.DataFrame(reviewed_books.drop_duplicates(subset=['IDUsuario', 'Calificacion', 'Llave']))
         dewey_unit_name = self.level_to_dewey_option(dewey_unit)
-        if not dewey_unit_name == "BC" and not dewey_unit_name == "Nuevo":
-            selected_row: pd.DataFrame = reviewed_books.loc[
-                (reviewed_books["Nivel"] == float(dewey_unit))
-                & (reviewed_books[dewey_unit_name] == int(dewey))
-            ]
+        if not dewey_unit_name == 'BC' and not dewey_unit_name == 'Nuevo':
+            selected_row: pd.DataFrame = reviewed_books.loc[(reviewed_books['Nivel'] == float(dewey_unit)) & (reviewed_books[dewey_unit_name]== int(dewey))]
         else:
-            selected_row: pd.DataFrame = reviewed_books.loc[
-                (reviewed_books["Nivel"] == dewey_unit)
-            ]
+            selected_row: pd.DataFrame  = reviewed_books.loc[(reviewed_books['Nivel'] == dewey_unit) ]
         return Response(selected_row)
 
-    # Dado un valor numerico de dewey, se devuelve el nombre de ese valor
+
+    #Dado un valor numerico de dewey, se devuelve el nombre de ese valor
     def level_to_dewey_option(self, selected_dewey_level):
         if selected_dewey_level == "0.5":
-            selected_dewey_option = "DeweyUnidad"
+            selected_dewey_option = 'DeweyUnidad'
         elif selected_dewey_level == "0.2":
-            selected_dewey_option = "DeweyDecena"
+            selected_dewey_option = 'DeweyDecena'
         elif selected_dewey_level == "0.1":
-            selected_dewey_option = "DeweyCentena"
+            selected_dewey_option = 'DeweyCentena'
         elif selected_dewey_level == "BC":
-            selected_dewey_option = "BC"
+            selected_dewey_option = 'BC'
         elif selected_dewey_level == "Nuevo":
-            selected_dewey_option = "BC"
+            selected_dewey_option = 'BC'
         else:
-            selected_dewey_option = "DeweyUnidad"
+            selected_dewey_option = 'DeweyUnidad'
         return selected_dewey_option
-
 
 class DashboardFeedbackUtilsDeweyList(APIView):
     def get(self, request):
-        selected_dewey_level = request.GET.get("selected_dewey_level")
+        selected_dewey_level = request.GET.get('selected_dewey_level')
 
-        # Join entre las dos tablas desde la Llave del libro
-        all_deweys = pd.DataFrame(
-            pd.DataFrame(UsoBibliotecaConfig.lib_material)[
-                ["DeweyUnidad", "DeweyDecena", "DeweyCentena", "Llave"]
-            ]
-        )
-        reviewed_books: pd.DataFrame = UsoBibliotecaConfig.lib_feedback.merge(
-            all_deweys, on="Llave", suffixes=("_feedback", "_all_deweys")
-        )
-        reviewed_books = pd.DataFrame(
-            reviewed_books.drop_duplicates(
-                subset=["IDUsuario", "Calificacion", "Llave"]
-            )
-        )
+
+        #Join entre las dos tablas desde la Llave del libro
+        all_deweys = pd.DataFrame(UsoBibliotecaConfig.lib_material[['DeweyUnidad', 'DeweyDecena', 'DeweyCentena', 'Llave']])
+        reviewed_books: pd.DataFrame = UsoBibliotecaConfig.lib_feedback.merge(all_deweys, on='Llave', suffixes=('_feedback', '_all_deweys'))
+        reviewed_books = pd.DataFrame(reviewed_books.drop_duplicates(subset=['IDUsuario', 'Calificacion', 'Llave']))
         selected_dewey_option = self.level_to_dewey_option(selected_dewey_level)
 
-        if not selected_dewey_option == "BC" and not selected_dewey_option == "Nuevo":
+        if not selected_dewey_option == 'BC' and not selected_dewey_option == 'Nuevo':
             dewey_list = reviewed_books[selected_dewey_option].unique()
-            dewey_list = [{"label": x, "value": x} for x in dewey_list]
+            dewey_list = [{"label": x, "value": x } for x in dewey_list]
         else:
-            dewey_list = []
+            dewey_list=[]
         return Response(dewey_list)
 
-    # Dado un valor numerico de dewey, se devuelve el nombre de ese valor
+    #Dado un valor numerico de dewey, se devuelve el nombre de ese valor
     def level_to_dewey_option(self, selected_dewey_level):
         if selected_dewey_level == "0.5":
-            selected_dewey_option = "DeweyUnidad"
+            selected_dewey_option = 'DeweyUnidad'
         elif selected_dewey_level == "0.2":
-            selected_dewey_option = "DeweyDecena"
+            selected_dewey_option = 'DeweyDecena'
         elif selected_dewey_level == "0.1":
-            selected_dewey_option = "DeweyCentena"
+            selected_dewey_option = 'DeweyCentena'
         elif selected_dewey_level == "BC":
-            selected_dewey_option = "BC"
+            selected_dewey_option = 'BC'
         elif selected_dewey_level == "Nuevo":
-            selected_dewey_option = "BC"
+            selected_dewey_option = 'BC'
         else:
-            selected_dewey_option = "DeweyUnidad"
+            selected_dewey_option = 'DeweyUnidad'
         return selected_dewey_option
-
 
 class DashboardGrupos(APIView):
     def get(self, request):
@@ -381,3 +357,48 @@ class DashboardGruposUtilsDeweyList(APIView):
         else:
             selected_dewey_option = "DeweyUnidad"
         return selected_dewey_option
+
+
+class DashboardPertenencia(APIView):
+    def get(self, request):
+        dropdown_value = request.GET.get("dropdown_value")
+        # seleccionamos filas pertinentes del usuario.
+        selected_row = UsoBibliotecaConfig.lib_pesos_usuarios.loc[
+            UsoBibliotecaConfig.lib_pesos_usuarios["IDUsuario"] == dropdown_value
+        ]
+        # quitamos los ceros
+        selected_row = selected_row.loc[:, (selected_row != 0.0).any(axis=0)]
+        # multiplicamos los pesos de los usuarios *100
+        selected_row = selected_row.apply(lambda x: x * 100, axis=0)
+        # quitamos el id del usuario
+        selected_row = selected_row.drop(["IDUsuario"], axis=1)
+        # Hacemos la fila a columna
+        selected_row = selected_row.T
+
+        return Response(selected_row)
+
+
+class DashboardPertenenciaUtilsUpdateBookList(APIView):
+    def get(self, request):
+        dropdown_value = request.GET.get("dropdown_value")
+        # Obtenemos la lista de libros recomendados del usuario
+        does_user_id_match = (
+            UsoBibliotecaConfig.lib_recomendaciones_completas["IDUsuario"]
+            == dropdown_value
+        )
+        book_table = UsoBibliotecaConfig.lib_recomendaciones_completas.loc[
+            does_user_id_match
+        ]
+        book_table = book_table[["Titulo", "Llave", "DeweyUnidad"]]
+        return Response(book_table)
+
+
+class DashboardPertenenciaUtilsUpdateOptions(APIView):
+    def get(self, request):
+        search_value = request.GET.get("search_value")
+        id_users = [
+            {"label": x, "value": x}
+            for x in UsoBibliotecaConfig.lib_pesos_usuarios["IDUsuario"].unique()
+        ]
+        result = [o for o in id_users if search_value in o["label"]][0:200]
+        return Response(result)

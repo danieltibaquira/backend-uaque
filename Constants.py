@@ -45,8 +45,8 @@ class Constants:
     recomendaciones = basepath + "no9kiho5ym8jvyr/recomendaciones.json?dl=1"
     recomendaciones_name = "/recomendaciones.json"
 
-    # recomendaciones_finalesMasFeedback = basepath + "ii7tj2jkmpt2fi9/recomedaciones_feedback.json?dl=1"
-    # recomendaciones_finalesMasFeedback_name = "/recomendaciones_finalesMasFeedback.json"
+    recomendaciones_finalesMasFeedback = basepath + "ii7tj2jkmpt2fi9/recomedaciones_feedback.json?dl=1"
+    recomendaciones_finalesMasFeedback_name = "/recomendaciones_finalesMasFeedback.json"
 
     lib_material_post = basepath + "ebhbn5nfadoc36s/material_limpio.json?dl=1"
     lib_material_post_name = "/material_limpio.json"
