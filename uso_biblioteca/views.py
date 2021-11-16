@@ -402,3 +402,37 @@ class DashboardPertenenciaUtilsUpdateOptions(APIView):
         ]
         result = [o for o in id_users if search_value in o["label"]][0:200]
         return Response(result)
+
+class DashboardFeedbackPorDewey(APIView):
+    def get(self, request):
+        id_user= request.GET.get("id_user")
+
+        #Traemos todas las llaves con susu deweys de todas las unidades
+        all_deweys = pd.DataFrame(pd.DataFrame(UsoBibliotecaConfig.lib_material)[['DeweyUnidad', 'DeweyDecena', 'DeweyCentena', 'Llave']]
+        .drop_duplicates())
+        reviewed_books: pd.DataFrame = UsoBibliotecaConfig.lib_feedback.merge(all_deweys, on='Llave', suffixes=('_feedback', '_all_deweys'))
+        reviewed_books = pd.DataFrame(reviewed_books.drop_duplicates(subset=['IDUsuario', 'Calificacion', 'Llave']))
+
+        selected_row: pd.DataFrame  = reviewed_books.loc[(reviewed_books['IDUsuario'] == id_user) ]
+        selected_row['Calificacion'] = selected_row['Calificacion'].apply(lambda x: str(x) )
+        return Response(selected_row)
+
+class DashboardFeedbackPorDeweyUtilsOption(APIView):
+    def get(self, request):
+        search_value = request.GET.get("search_value")
+
+        #Traemos todas las llaves con susu deweys de todas las unidades
+        all_deweys = pd.DataFrame(pd.DataFrame(UsoBibliotecaConfig.lib_material)[['DeweyUnidad', 'DeweyDecena', 'DeweyCentena', 'Llave']]
+        .drop_duplicates())
+
+        reviewed_books: pd.DataFrame = UsoBibliotecaConfig.lib_feedback.merge(all_deweys, on='Llave', suffixes=('_feedback', '_all_deweys'))
+        reviewed_books = pd.DataFrame(reviewed_books.drop_duplicates(subset=['IDUsuario', 'Calificacion', 'Llave']))
+
+        id_users = [{"label": x, "value": x } for x in reviewed_books["IDUsuario"].unique()]
+        id_users = [
+            {"label": x, "value": x}
+            for x in UsoBibliotecaConfig.lib_pesos_usuarios["IDUsuario"].unique()
+        ]
+
+        result = [o for o in id_users if search_value in o["label"]][0:200]
+        return Response(result)
