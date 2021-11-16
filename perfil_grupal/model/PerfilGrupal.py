@@ -6,6 +6,13 @@ from sklearn.preprocessing import Normalizer
 import datetime
 import gzip, pickle, pickletools
 import time
+import sys
+
+sys.path.append('./')
+sys.path.append('../')
+sys.path.append('../../')
+
+import Constants
 
 class PerfilGrupal:
 
@@ -15,9 +22,10 @@ class PerfilGrupal:
 
     def cargaDatos(self):
         #importamos la tabla de join
-        join = pd.read_json('https://www.dropbox.com/s/i1komhf7u1c4y95/joinTablas.json?dl=1')
+        # join = pd.read_json('https://www.dropbox.com/s/i1komhf7u1c4y95/joinTablas.json?dl=1')
+        join = pd.read_json(Constants.Constants.join)
         #Eliminamos algunas columnas que no nos interesan para este notebook
-        join = join.drop(["Fecha","Dewey","Facultad","Temas","Union","TipoItem"], axis=1)
+        join = join.drop(["Fecha","Facultad"], axis=1)
         return join[:1000]
 
 
@@ -28,6 +36,8 @@ class PerfilGrupal:
         self.join["Peso"] = self.join.apply(lambda row: 1/2**(anio_actual-row.Year), axis=1 )
         self.join[["Year","Peso"]]
 
+        self.join.loc[self.join.calificacion.isnull(), "calificacion"] = 1.0
+        self.join["Peso"] = self.join.apply(lambda row: (row.calificacion*row.Peso), axis=1 )
 
     #crearTablaPesos: crea la tabla de pesos por usuario
     #parámetros
@@ -40,6 +50,9 @@ class PerfilGrupal:
         #creamos las columnas a partir de los deweys diferentes.
         agrupacion = self.join.groupby(["IDUsuario",columna])["Peso"].sum().reset_index(name="Peso")
         display(agrupacion.head(5))
+
+        #Los pesos no deben ser menores a cero
+        agrupacion.loc[agrupacion.Peso < 0.0, "Peso"] = 0
 
         #cración del dataframe
         pesos_usuarios = pd.DataFrame()
@@ -148,9 +161,43 @@ class PerfilGrupal:
         self.pesos_clustering_centena.reset_index(drop=True, inplace=True)
 
     def exportarDatos(self):
-        self.pesos_clustering_unidad.to_json(r'C:\Users\user\Downloads\pesos_clustering_unidad.json')
-        self.pesos_clustering_decena.to_json(r'C:\Users\user\Downloads\pesos_clustering_decena.json')
-        self.pesos_clustering_centena.to_json(r'C:\Users\user\Downloads\pesos_clustering_centena.json')
+        # pesos_clustering_unidad
+        Constants.Constants.dbx.files_upload(
+            str.encode(self.pesos_clustering_unidad.to_json()),
+            Constants.Constants.pesos_clust_unidad_name,
+            mode=dropbox.files.WriteMode.overwrite
+       )
+        # pesos_clustering_decena
+        Constants.Constants.dbx.files_upload(
+            str.encode(self.pesos_clustering_decena.to_json()),
+            Constants.Constants.pesos_clust_decena_name,
+            mode=dropbox.files.WriteMode.overwrite
+       )
+        # pesos_clustering_centena
+        Constants.Constants.dbx.files_upload(
+            str.encode(self.pesos_clustering_centena.to_json()),
+            Constants.Constants.pesos_clust_centena_name,
+            mode=dropbox.files.WriteMode.overwrite
+       )
+
+        # pesos_usuarios_unidad
+        Constants.Constants.dbx.files_upload(
+            str.encode(self.pesos_usuarios_unidad.to_json()),
+            Constants.Constants.pesos_usuarios_unidad_name,
+            mode=dropbox.files.WriteMode.overwrite
+        )
+        # pesos_usuarios_decena
+        Constants.Constants.dbx.files_upload(
+            str.encode(self.pesos_usuarios_decena.to_json()),
+            Constants.Constants.pesos_usuarios_decena_name,
+            mode=dropbox.files.WriteMode.overwrite
+        )
+        # pesos_usuarios_centena
+        Constants.Constants.dbx.files_upload(
+            str.encode(self.pesos_usuarios_centena.to_json()),
+            Constants.Constants.pesos_usuarios_centena_name,
+            mode=dropbox.files.WriteMode.overwrite
+        )
 
     def exportarModelo(self):
         now_time = time.strftime("%m%d%H%m")

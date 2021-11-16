@@ -18,5 +18,6 @@ urlpatterns = [
     path('suj-e-004/libRes', LibResAPIView.as_view()),
     path('suj-e-004/azRes', AzResAPIView.as_view()),
     path('suj-e-004/repoRes', RepoResAPIView.as_view()),
+    path('suj-e-004/dataprep', RepoResAPIView.as_view()),
 
 ]

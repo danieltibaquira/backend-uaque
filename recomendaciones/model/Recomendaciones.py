@@ -8,6 +8,9 @@ import math
 import cloudpickle as cp
 import urllib.request
 import gzip, pickle, pickletools
+import sys
+sys.path.append('../../')
+import Constants
 class Recomendaciones:
 
     def __init__(self):
@@ -17,13 +20,13 @@ class Recomendaciones:
 
     def cargaDatos(self):
         #importamos la tabla de join
-        self.join = pd.read_json('https://www.dropbox.com/s/i1komhf7u1c4y95/joinTablas.json?dl=1')
-        self.pesos_clustering_unidad = pd.read_json('https://www.dropbox.com/s/6j30n8y3fn8358l/pesos_clustering_unidad.json?dl=1')
-        self.pesos_clustering_decena = pd.read_json('https://www.dropbox.com/s/6m7vbpfq8b8qz4s/pesos_clustering_decena.json?dl=1')
-        self.pesos_clustering_centena = pd.read_json('https://www.dropbox.com/s/3rjqco5swu55cna/pesos_clustering_centena.json?dl=1')
-        self.pesos_usuarios_unidad = pd.read_json('https://www.dropbox.com/s/aitygqwn9q47rlg/pesos_usuario_x_dewey_unidad.json?dl=1')
-        self.pesos_usuarios_decena = pd.read_json('https://www.dropbox.com/s/vr6ehn8xjhojuba/pesos_usuario_x_dewey_decena.json?dl=1')
-        self.pesos_usuarios_centena = pd.read_json('https://www.dropbox.com/s/2vnntgjnqpijkgg/pesos_usuario_x_dewey_centena.json?dl=1')
+        self.join = pd.read_json(Constants.Constants.join)
+        self.pesos_clustering_unidad = pd.read_json(Constants.Constants.pesos_clust_unidad)
+        self.pesos_clustering_decena = pd.read_json(Constants.Constants.pesos_clust_decena)
+        self.pesos_clustering_centena = pd.read_json(Constants.Constants.pesos_clust_centena)
+        self.pesos_usuarios_unidad = pd.read_json(Constants.Constants.pesos_usuarios_unidad)
+        self.pesos_usuarios_decena = pd.read_json(Constants.Constants.pesos_usuarios_decena)
+        self.pesos_usuarios_centena = pd.read_json(Constants.Constants.pesos_usuarios_centena)
         #Eliminamos algunas columnas que no nos interesan para este notebook
         self.join = self.join.drop(["Fecha","Dewey","Facultad","Temas","Union","TipoItem"], axis=1)
 
@@ -253,4 +256,11 @@ class Recomendaciones:
 
 
     def exportarRecomendaciones(self):
-        self.recomendaciones_finales.to_json(r'/Users/juansebastianangaritatorres/Downloads/recomedaciones_finales.json')
+        info_libros = self.join[['Llave', 'DeweyUnidad', 'Titulo']].drop_duplicates(subset=['Llave'])
+        recomendaciones_completas = self.recomendaciones_finales.merge(info_libros, on='Llave',how='inner')#, rsuffix='_right', lsuffix='_left')
+
+        # recomendaciones_completas.to_json(r'C:\Users\user\Downloads\recomedaciones_completas.json')
+        Constants.Constants.dbx.files_upload(
+            str.encode(recomendaciones_completas.to_json()),
+            Constants.Constants.recomendaciones_name,
+            mode=dropbox.files.WriteMode.overwrite)

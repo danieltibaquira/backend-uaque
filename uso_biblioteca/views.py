@@ -10,6 +10,14 @@ from .models import RepoRes
 from .serializer import *
 import pandas as pd
 from .apps import UsoBibliotecaConfig
+import sys
+sys.path.append('./DataPrep/DataPrep')
+sys.path.append('../')
+import Constants
+from uso_biblioteca.DataPrep.DataPrep import Material
+from uso_biblioteca.DataPrep.DataPrep import History
+from uso_biblioteca.DataPrep.DataPrep import Merger
+
 
 # Create your views here.
 class LibUseAPIView(APIView):
@@ -174,3 +182,14 @@ class RepoResAPIView(APIView):
         repoResources = self.get_queryset(queryItemId)
         serializer = RepoResSerializer(repoResources, many=True)
         return Response(serializer.data)
+
+class DataPrepAPIView(APIView):
+    def get(self, request):
+        prepM = Material()
+        prepM.clean()
+        prepH = History()
+        prepH.clean()
+        merger = Merger(prepH, prepM)
+        merger.join()
+
+        return Response(status=202)
