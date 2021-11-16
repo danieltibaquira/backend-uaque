@@ -211,7 +211,7 @@ class DashboardFeedback(APIView):
             selected_dewey_option = 'DeweyUnidad'
         return selected_dewey_option
 
-class DashboardUtilsDeweyList(APIView):
+class DashboardFeedbackUtilsDeweyList(APIView):
     def get(self, request):
         selected_dewey_level = request.GET.get('selected_dewey_level')
 
@@ -245,6 +245,59 @@ class DashboardUtilsDeweyList(APIView):
             selected_dewey_option = 'DeweyUnidad'
         return selected_dewey_option
 
+class DashboardGrupos(APIView):
+    def get(self, request):
+        dewey = request.GET.get('dewey')
+
+        table_columns = ['nombre_usuario', 'email','IDUsuario', 'Facultad', 'Programa']
+        users_info = UsoBibliotecaConfig.lib_material[['IDUsuario', 'Facultad', 'Programa','DeweyUnidad', 'DeweyDecena', 'DeweyCentena']]
+        users_info = users_info.drop_duplicates(subset=['IDUsuario', 'Facultad', 'Programa'])
+        users_info = users_info.merge(UsoBibliotecaConfig.lib_pesos_usuarios, on='IDUsuario')
+        fake_users_info = UsoBibliotecaConfig.lib_fake_user_info
+
+        threshold = 0.2
+        if dewey == -999:
+            dewey = "-999"
+        does_dewey_match = users_info[str(dewey)] >= threshold
+        selected_rows = users_info.loc[does_dewey_match]
+        selected_rows = selected_rows[['IDUsuario', 'Facultad', 'Programa']]
+        #insert mock data
+        n_rows = len(selected_rows.index)
+        if n_rows>len(fake_users_info.index):
+            n_rows = len(fake_users_info.index)
+        fake_info = fake_users_info.sample(n=n_rows)
+        selected_rows = pd.concat([selected_rows.reset_index(),fake_info.reset_index()], axis=1)
+        response = selected_rows[table_columns].to_dict('records')
+        return Response(response)
 
 
+class DashboardGruposUtilsDeweyList(APIView):
+    def get(self, request):
+        selected_dewey_level = request.GET.get('selected_dewey_level')
 
+
+        all_deweys = pd.DataFrame(UsoBibliotecaConfig.lib_material[['DeweyUnidad', 'DeweyDecena', 'DeweyCentena']])
+
+        dewey_list = []
+        selected_dewey_option = self.level_to_dewey_option(selected_dewey_level)
+
+        dewey_list = all_deweys[selected_dewey_option].unique()
+        dewey_list = [{"label": x, "value": x } for x in dewey_list]
+
+        return Response(dewey_list)
+
+    #Dado un valor numerico de dewey, se devuelve el nombre de ese valor
+    def level_to_dewey_option(self, selected_dewey_level):
+        if selected_dewey_level == "0.5":
+            selected_dewey_option = 'DeweyUnidad'
+        elif selected_dewey_level == "0.2":
+            selected_dewey_option = 'DeweyDecena'
+        elif selected_dewey_level == "0.1":
+            selected_dewey_option = 'DeweyCentena'
+        elif selected_dewey_level == "BC":
+            selected_dewey_option = 'BC'
+        elif selected_dewey_level == "Nuevo":
+            selected_dewey_option = 'BC'
+        else:
+            selected_dewey_option = 'DeweyUnidad'
+        return selected_dewey_option
