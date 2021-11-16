@@ -11,8 +11,9 @@ from .serializer import *
 import pandas as pd
 from .apps import UsoBibliotecaConfig
 import sys
-sys.path.append('./DataPrep/DataPrep')
-sys.path.append('../')
+
+sys.path.append("./DataPrep/DataPrep")
+sys.path.append("../")
 import Constants
 from uso_biblioteca.DataPrep.DataPrep import Material
 from uso_biblioteca.DataPrep.DataPrep import History
@@ -27,9 +28,11 @@ class LibUseAPIView(APIView):
         if not queryUserId:
             return LibUse.objects.all().prefetch_related("tranlib_set")
         else:
-            return LibUse.objects.filter(idUser__exact=queryUserId).prefetch_related("tranlib_set")
+            return LibUse.objects.filter(idUser__exact=queryUserId).prefetch_related(
+                "tranlib_set"
+            )
 
-    '''
+    """
     DESCRIPTION: Servicio que expone las transacciones realizados por un usuario sobre material bibliográfico de la biblioteca.
 
     URL: http:///{{smartuj-endpoint}}/suj-e-004/libUse
@@ -41,21 +44,25 @@ class LibUseAPIView(APIView):
 
     RESPONSE: Objeto LibUse
 
-    '''
+    """
+
     def get(self, request):
-        queryUserId = request.GET.get('userId')
+        queryUserId = request.GET.get("userId")
         libUses = self.get_queryset(queryUserId)
         serializer = LibUseSerializer(libUses, many=True)
         return Response(serializer.data)
+
 
 class AzUseAPIView(APIView):
     def get_queryset(self, queryUserId):
         if not queryUserId:
             return AzUse.objects.all().prefetch_related("tranaz_set")
         else:
-            return AzUse.objects.filter(idUser__exact=queryUserId).prefetch_related("tranaz_set")
+            return AzUse.objects.filter(idUser__exact=queryUserId).prefetch_related(
+                "tranaz_set"
+            )
 
-    '''
+    """
     DESCRIPTION: Servicio que indica los recursos consultados de recursos electrónicos AZ por parte de los estudiantes.
 
     URL: http:///{{smartuj-endpoint}}/suj-e-004/azUse
@@ -67,21 +74,25 @@ class AzUseAPIView(APIView):
 
     RESPONSE: Objeto AzUse
 
-    '''
+    """
+
     def get(self, request):
-        queryUserId = request.GET.get('userId')
+        queryUserId = request.GET.get("userId")
         azUses = self.get_queryset(queryUserId)
         serializer = AzUseSerializer(azUses, many=True)
         return Response(serializer.data)
+
 
 class RepoUseAPIView(APIView):
     def get_queryset(self, queryUserId):
         if not queryUserId:
             return RepoUse.objects.all().prefetch_related("tranrepo_set")
         else:
-            return RepoUse.objects.filter(idUser__exact=queryUserId).prefetch_related("tranrepo_set")
+            return RepoUse.objects.filter(idUser__exact=queryUserId).prefetch_related(
+                "tranrepo_set"
+            )
 
-    '''
+    """
     DESCRIPTION: Servicio que indica las transacciones realizadas por un usuario en el repositorio institucional.
 
     URL: http:///{{smartuj-endpoint}}/suj-e-004/repoUse
@@ -93,18 +104,19 @@ class RepoUseAPIView(APIView):
 
     RESPONSE: Objeto RepoUse
 
-    '''
+    """
+
     def get(self, request):
-        queryUserId = request.GET.get('userId')
+        queryUserId = request.GET.get("userId")
         repoUses = self.get_queryset(queryUserId)
         serializer = RepoUseSerializer(repoUses, many=True)
         return Response(serializer.data)
 
+
 class LibResAPIView(APIView):
     df_material = UsoBibliotecaConfig.lib_material.copy()
 
-
-    '''
+    """
     DESCRIPTION: Servicio que entrega información sobre material Bibliográfico físico de la biblioteca.
 
     URL: http:///{{smartuj-endpoint}}/suj-e-004/libRes
@@ -117,19 +129,27 @@ class LibResAPIView(APIView):
 
     RESPONSE: Objeto LibRes
 
-    '''
+    """
+
     def get(self, request):
-        queryItemId = request.GET.get('itemId')
-        found_titles = self.df_material.loc[self.df_material['Titulo'].str.lower().str.contains(str(queryItemId).lower())]
+        queryItemId = request.GET.get("itemId")
+        found_titles = self.df_material[
+            self.df_material["Titulo"]
+            .str.lower()
+            .str.contains(str(queryItemId).lower())
+        ]
         titles_res = []
         for index, row in found_titles.iterrows():
-            titles_res.append({
-                'itemId': row['Llave'],
-                'title': row['Titulo'],
-                'autor': row['Autor'],
-                'year': row['AnioPublicacion']
-            })
+            titles_res.append(
+                {
+                    "itemId": row["Llave"],
+                    "title": row["Titulo"],
+                    "autor": row["Autor"],
+                    "year": row["AnioPublicacion"],
+                }
+            )
         return Response(titles_res)
+
 
 class AzResAPIView(APIView):
     def get_queryset(self, queryItemId):
@@ -138,7 +158,7 @@ class AzResAPIView(APIView):
         else:
             return AzRes.objects.filter(idResource__exact=queryItemId)
 
-    '''
+    """
     DESCRIPTION: Servicio que indica las transacciones realizadas por un usuario en el repositorio institucional.
 
     URL: http:///{{smartuj-endpoint}}/suj-e-004/azRes
@@ -151,12 +171,14 @@ class AzResAPIView(APIView):
 
     RESPONSE: Objeto AzRes
 
-    '''
+    """
+
     def get(self, request):
-        queryItemId = request.GET.get('itemId')
+        queryItemId = request.GET.get("itemId")
         azResources = self.get_queryset(queryItemId)
         serializer = AzResSerializer(azResources, many=True)
         return Response(serializer.data)
+
 
 class RepoResAPIView(APIView):
     def get_queryset(self, queryItemId):
@@ -165,7 +187,7 @@ class RepoResAPIView(APIView):
         else:
             return RepoRes.objects.filter(idResource__exact=queryItemId)
 
-    '''
+    """
     DESCRIPTION: Servicio que entrega la información de los recursos disponibles en el repositorio institucional.
 
     URL: http:///{{smartuj-endpoint}}/suj-e-004/repoRes
@@ -178,12 +200,14 @@ class RepoResAPIView(APIView):
 
     RESPONSE: Objeto repoRes
 
-    '''
+    """
+
     def get(self, request):
-        queryItemId = request.GET.get('itemId')
+        queryItemId = request.GET.get("itemId")
         repoResources = self.get_queryset(queryItemId)
         serializer = RepoResSerializer(repoResources, many=True)
         return Response(serializer.data)
+
 
 class DataPrepAPIView(APIView):
     def get(self, request):
@@ -195,127 +219,165 @@ class DataPrepAPIView(APIView):
         merger.join()
 
         return Response(status=202)
+
+
 class DashboardFeedback(APIView):
     def get(self, request):
-        dewey = request.GET.get('dewey')
-        dewey_unit = request.GET.get('dewey_unit')
-        #Traemos todas las llaves con susu deweys de todas las unidades
-        all_deweys = pd.DataFrame(UsoBibliotecaConfig.lib_material[['DeweyUnidad', 'DeweyDecena', 'DeweyCentena', 'Llave']].drop_duplicates())
+        dewey = request.GET.get("dewey")
+        dewey_unit = request.GET.get("dewey_unit")
+        # Traemos todas las llaves con susu deweys de todas las unidades
+        all_deweys = pd.DataFrame(
+            pd.DataFrame(UsoBibliotecaConfig.lib_material)[
+                ["DeweyUnidad", "DeweyDecena", "DeweyCentena", "Llave"]
+            ].drop_duplicates()
+        )
 
-        #Join entre las dos tablas desde la Llave del libro
-        reviewed_books: pd.DataFrame = UsoBibliotecaConfig.lib_feedback.merge(all_deweys, on='Llave', suffixes=('_feedback', '_all_deweys'))
-        reviewed_books = pd.DataFrame(reviewed_books.drop_duplicates(subset=['IDUsuario', 'Calificacion', 'Llave']))
+        # Join entre las dos tablas desde la Llave del libro
+        reviewed_books: pd.DataFrame = UsoBibliotecaConfig.lib_feedback.merge(
+            all_deweys, on="Llave", suffixes=("_feedback", "_all_deweys")
+        )
+        reviewed_books = pd.DataFrame(
+            reviewed_books.drop_duplicates(
+                subset=["IDUsuario", "Calificacion", "Llave"]
+            )
+        )
         dewey_unit_name = self.level_to_dewey_option(dewey_unit)
-        if not dewey_unit_name == 'BC' and not dewey_unit_name == 'Nuevo':
-            selected_row: pd.DataFrame = reviewed_books.loc[(reviewed_books['Nivel'] == float(dewey_unit)) & (reviewed_books[dewey_unit_name]== int(dewey))]
+        if not dewey_unit_name == "BC" and not dewey_unit_name == "Nuevo":
+            selected_row: pd.DataFrame = reviewed_books.loc[
+                (reviewed_books["Nivel"] == float(dewey_unit))
+                & (reviewed_books[dewey_unit_name] == int(dewey))
+            ]
         else:
-            selected_row: pd.DataFrame  = reviewed_books.loc[(reviewed_books['Nivel'] == dewey_unit) ]
+            selected_row: pd.DataFrame = reviewed_books.loc[
+                (reviewed_books["Nivel"] == dewey_unit)
+            ]
         return Response(selected_row)
 
-
-    #Dado un valor numerico de dewey, se devuelve el nombre de ese valor
+    # Dado un valor numerico de dewey, se devuelve el nombre de ese valor
     def level_to_dewey_option(self, selected_dewey_level):
         if selected_dewey_level == "0.5":
-            selected_dewey_option = 'DeweyUnidad'
+            selected_dewey_option = "DeweyUnidad"
         elif selected_dewey_level == "0.2":
-            selected_dewey_option = 'DeweyDecena'
+            selected_dewey_option = "DeweyDecena"
         elif selected_dewey_level == "0.1":
-            selected_dewey_option = 'DeweyCentena'
+            selected_dewey_option = "DeweyCentena"
         elif selected_dewey_level == "BC":
-            selected_dewey_option = 'BC'
+            selected_dewey_option = "BC"
         elif selected_dewey_level == "Nuevo":
-            selected_dewey_option = 'BC'
+            selected_dewey_option = "BC"
         else:
-            selected_dewey_option = 'DeweyUnidad'
+            selected_dewey_option = "DeweyUnidad"
         return selected_dewey_option
+
 
 class DashboardFeedbackUtilsDeweyList(APIView):
     def get(self, request):
-        selected_dewey_level = request.GET.get('selected_dewey_level')
+        selected_dewey_level = request.GET.get("selected_dewey_level")
 
-
-        #Join entre las dos tablas desde la Llave del libro
-        all_deweys = pd.DataFrame(UsoBibliotecaConfig.lib_material[['DeweyUnidad', 'DeweyDecena', 'DeweyCentena', 'Llave']])
-        reviewed_books: pd.DataFrame = UsoBibliotecaConfig.lib_feedback.merge(all_deweys, on='Llave', suffixes=('_feedback', '_all_deweys'))
-        reviewed_books = pd.DataFrame(reviewed_books.drop_duplicates(subset=['IDUsuario', 'Calificacion', 'Llave']))
+        # Join entre las dos tablas desde la Llave del libro
+        all_deweys = pd.DataFrame(
+            pd.DataFrame(UsoBibliotecaConfig.lib_material)[
+                ["DeweyUnidad", "DeweyDecena", "DeweyCentena", "Llave"]
+            ]
+        )
+        reviewed_books: pd.DataFrame = UsoBibliotecaConfig.lib_feedback.merge(
+            all_deweys, on="Llave", suffixes=("_feedback", "_all_deweys")
+        )
+        reviewed_books = pd.DataFrame(
+            reviewed_books.drop_duplicates(
+                subset=["IDUsuario", "Calificacion", "Llave"]
+            )
+        )
         selected_dewey_option = self.level_to_dewey_option(selected_dewey_level)
 
-        if not selected_dewey_option == 'BC' and not selected_dewey_option == 'Nuevo':
+        if not selected_dewey_option == "BC" and not selected_dewey_option == "Nuevo":
             dewey_list = reviewed_books[selected_dewey_option].unique()
-            dewey_list = [{"label": x, "value": x } for x in dewey_list]
+            dewey_list = [{"label": x, "value": x} for x in dewey_list]
         else:
-            dewey_list=[]
+            dewey_list = []
         return Response(dewey_list)
 
-    #Dado un valor numerico de dewey, se devuelve el nombre de ese valor
+    # Dado un valor numerico de dewey, se devuelve el nombre de ese valor
     def level_to_dewey_option(self, selected_dewey_level):
         if selected_dewey_level == "0.5":
-            selected_dewey_option = 'DeweyUnidad'
+            selected_dewey_option = "DeweyUnidad"
         elif selected_dewey_level == "0.2":
-            selected_dewey_option = 'DeweyDecena'
+            selected_dewey_option = "DeweyDecena"
         elif selected_dewey_level == "0.1":
-            selected_dewey_option = 'DeweyCentena'
+            selected_dewey_option = "DeweyCentena"
         elif selected_dewey_level == "BC":
-            selected_dewey_option = 'BC'
+            selected_dewey_option = "BC"
         elif selected_dewey_level == "Nuevo":
-            selected_dewey_option = 'BC'
+            selected_dewey_option = "BC"
         else:
-            selected_dewey_option = 'DeweyUnidad'
+            selected_dewey_option = "DeweyUnidad"
         return selected_dewey_option
+
 
 class DashboardGrupos(APIView):
     def get(self, request):
-        dewey = request.GET.get('dewey')
+        dewey = request.GET.get("dewey")
 
-        table_columns = ['nombre_usuario', 'email','IDUsuario', 'Facultad', 'Programa']
-        users_info = UsoBibliotecaConfig.lib_material[['IDUsuario', 'Facultad', 'Programa','DeweyUnidad', 'DeweyDecena', 'DeweyCentena']]
-        users_info = users_info.drop_duplicates(subset=['IDUsuario', 'Facultad', 'Programa'])
-        users_info = users_info.merge(UsoBibliotecaConfig.lib_pesos_usuarios, on='IDUsuario')
-        fake_users_info = UsoBibliotecaConfig.lib_fake_user_info
+        table_columns = ["IDUsuario", "Facultad", "Programa"]
+        users_info = pd.DataFrame(UsoBibliotecaConfig.lib_material)[
+            [
+                "IDUsuario",
+                "Facultad",
+                "Programa",
+                "DeweyUnidad",
+                "DeweyDecena",
+                "DeweyCentena",
+            ]
+        ]
+        users_info = users_info.drop_duplicates(
+            subset=["IDUsuario", "Facultad", "Programa"]
+        )
+        users_info = users_info.merge(
+            UsoBibliotecaConfig.lib_pesos_usuarios, on="IDUsuario"
+        )
 
         threshold = 0.2
         if dewey == -999:
             dewey = "-999"
         does_dewey_match = users_info[str(dewey)] >= threshold
         selected_rows = users_info.loc[does_dewey_match]
-        selected_rows = selected_rows[['IDUsuario', 'Facultad', 'Programa']]
-        #insert mock data
-        n_rows = len(selected_rows.index)
-        if n_rows>len(fake_users_info.index):
-            n_rows = len(fake_users_info.index)
-        fake_info = fake_users_info.sample(n=n_rows)
-        selected_rows = pd.concat([selected_rows.reset_index(),fake_info.reset_index()], axis=1)
-        response = selected_rows[table_columns].to_dict('records')
+        selected_rows = selected_rows[["IDUsuario", "Facultad", "Programa"]]
+        # insert mock data
+        print(selected_rows.isnull().values.any())
+        response = selected_rows[table_columns].to_dict("records")
         return Response(response)
 
 
 class DashboardGruposUtilsDeweyList(APIView):
     def get(self, request):
-        selected_dewey_level = request.GET.get('selected_dewey_level')
+        selected_dewey_level = request.GET.get("selected_dewey_level")
 
-
-        all_deweys = pd.DataFrame(UsoBibliotecaConfig.lib_material[['DeweyUnidad', 'DeweyDecena', 'DeweyCentena']])
+        all_deweys = pd.DataFrame(
+            pd.DataFrame(UsoBibliotecaConfig.lib_material)[
+                ["DeweyUnidad", "DeweyDecena", "DeweyCentena"]
+            ]
+        )
 
         dewey_list = []
         selected_dewey_option = self.level_to_dewey_option(selected_dewey_level)
 
         dewey_list = all_deweys[selected_dewey_option].unique()
-        dewey_list = [{"label": x, "value": x } for x in dewey_list]
+        dewey_list = [{"label": x, "value": x} for x in dewey_list]
 
         return Response(dewey_list)
 
-    #Dado un valor numerico de dewey, se devuelve el nombre de ese valor
+    # Dado un valor numerico de dewey, se devuelve el nombre de ese valor
     def level_to_dewey_option(self, selected_dewey_level):
         if selected_dewey_level == "0.5":
-            selected_dewey_option = 'DeweyUnidad'
+            selected_dewey_option = "DeweyUnidad"
         elif selected_dewey_level == "0.2":
-            selected_dewey_option = 'DeweyDecena'
+            selected_dewey_option = "DeweyDecena"
         elif selected_dewey_level == "0.1":
-            selected_dewey_option = 'DeweyCentena'
+            selected_dewey_option = "DeweyCentena"
         elif selected_dewey_level == "BC":
-            selected_dewey_option = 'BC'
+            selected_dewey_option = "BC"
         elif selected_dewey_level == "Nuevo":
-            selected_dewey_option = 'BC'
+            selected_dewey_option = "BC"
         else:
-            selected_dewey_option = 'DeweyUnidad'
+            selected_dewey_option = "DeweyUnidad"
         return selected_dewey_option
